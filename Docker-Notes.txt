@@ -1,0 +1,221 @@
+Docker
+
+To list docker images:
+docker images
+
+To list running containers
+docker ps
+
+To list all created containers, not just the ones which are running, we use the flag '-a'(all)
+docker ps -a
+
+To pull an image from docker hub
+docker pull <image-name>:<tag/version>
+Eg : docker pull nginx:1.27
+
+If we pull an image without version, docker will pull the latest image(tag 'latest')
+docker pull <image-name>
+Eg : docker pull nginx
+
+To run an image as a container
+docker run <image-name>:<tag>
+
+We need not necessarily need to pull image and then run as container, instead below command will also download automatically if not present locally and run the container
+docker run <image-name>:<tag>
+
+The above command with start the container, but if we hit (Ctrl+C) to run the other commands, its execution is stopped, So we use a new flag -d(detach) which will not stop execution
+docker run -d <image-name>:<tag>
+
+To check logs
+docker logs <container-id>
+
+To stop a running container
+docker stop <container-id>
+
+To access containers locally, we need to do port binding(bind port of container to localhost port) using a new flag -p(publish)
+docker run -d -p <host-port>:<container-port> <image-name>:<tag>
+Eg : docker run -d -p 8080:80 nginx:1.27
+Note : Only 1 service can run on a specific port on host. Standard followed is to use the same port in host as that of the container.
+
+Docker 'run' command will keep on creating a new container every time we execute it, won't reuse, instead we can start an already existing container using 'start' command
+docker start <container-id>
+
+Container Ids are hard to remember, so we can give names for containers(Docker will auto-generate a name if we don't provide one) using '--name' flag
+Eg : docker run --name web-app -d -p 9000:80 nginx:1.27
+	 web-app is the name provided to the container
+	 
+To build a docker image from a docker file
+docker build -t <image-name>:<tag> <Location-of-Dockerfile>
+Eg : docker build -t node-app:1.0 .
+Note : '.' indicates current directory
+
+To navigate and get the inner terminal of container image we use exec command with '-it'(Interactive terminal) flag 
+docker exec -it <container-id>/<container-name> <path>
+Eg : docker exec -it b30f9234cdcd /bin/bash
+	 docker exec -it redis /bin/bash
+	 
+Docker has an internal network which enables containers to communicate with each other. To see components under network use :
+docker network ls
+
+To create an internal network
+docker network create mongo-network
+
+To enable containers to communicate via this network, we need to use tag '--network' when running the container
+Eg : Command to start a mongodb container with username and password configured and running in network 'mongo-network' 
+docker run -p 27017:27017 -d -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=password --name=mongodb --net mongo-network mongo
+Note : -e flag is used to setup environment variables
+
+Command to configure and link mongo-express UI for the mongodb that we created in mongo-network
+docker run -d -p 8081:8081 -e ME_CONFIG_MONGODB_SERVER=mongodb -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=password --net mongo-network --name mongo-express mongo-express
+
+
+
+
+To start containers individually is very difficult and time consuming. So we use docker-compose command which uses a yaml file which has all necessary container names to up them all together.
+docker-compose -f <file-name> up
+Eg : docker-compose -f mongo.yaml -d
+Note : -f(file), 'up' command to start containers
+	   Inside the yaml file, we don't need to specify the network details as docker-compose will create a common network for the services to run and connect
+	   
+To stop all the running containers, we use the command 'down', instead of individually removing each container, this will also remove the network created when starting.
+Eg : docker-compose -f mongo.yml down
+
+We can use start and stopo commands along with docker-compose to avoid deletion of created network and containers as up and down commands creates and deletes containers and networks when used.
+Eg :docker-compose -f mongo.yml start
+	docker-compose -f mongo.yml stop
+Note : start and stop commands are beneficial as in case of usage of DBs, data stays persisted and won't be removed.
+
+In docker-compose file, we can use the 'depends_on' attribute to show the dependency of a service with other services such that this service will only be started after dependent services are up.
+ Eg :   depends_on:
+			- mongodb
+			
+When we 'up' docker-compose file, the container names created will have the directory name appended to it, we can override that using '-p' or '--project-name' flag
+If docker-compose file is present inside node-app folder, the containers generated will have name node-app-<service-name>-<count>
+Note : <count> indicates the number of containers of the service running.
+Eg : docker-compose --project-name projects -f docker-compose.yaml up -d
+	 docker-compose -p projects -f docker-compose.yaml stop
+
+Another dangerous issue when using docker-compose is the use of sensitive information, such as DB credentials in the file which will be an issue as our code is present in Git and people could access it.
+To avoid this we can configure environment variables in our system and use them in our docker-compose file.
+First we add environment variables
+Eg : export MONGO_ADMIN_USER=admin
+
+Then we use this variable in our docker-compose file.
+Eg :
+version: '3'
+services:
+  my-app:
+    image: 864899828403.dkr.ecr.us-east-1.amazonaws.com/my-app:1.4
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ADMIN_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ADMIN_PASS}
+
+
+
+
+
+
+
+To build a docker image with Dockerfile, we use the command :
+docker build -t <image-name>:<version> <directory>
+Eg : docker build -t my-app:1.0 .
+	Note : '.' used to indicate current working directory
+	
+
+To delete a container, we use
+docker rm <container-id>
+Eg : docker rm 46ddd2159889	
+
+	
+To remove a docker image, we use 
+docker rmi <image-id>
+Eg : docker rmi docker rmi c402763c2880
+Note : We can delete an image only after deleting the container.
+
+
+
+
+
+AWS commands (Using AWS ECR as a private repository to store docker images)
+To authenticate with AWS Elastic Container Registry (ECR) using PowerShell, we use :
+(Get-ECRLoginCommand).Password | docker login --username AWS --password-stdin 864899828403.dkr.ecr.eu-north-1.amazonaws.com
+
+If the above command doesn't work, we use :
+aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 864899828403.dkr.ecr.eu-north-1.amazonaws.com
+
+Image naming in registry
+<registry-domain>/<image-name>:<tag>
+ 
+To pull an image from Dockerhub, we use the command
+docker pull mongo:4.2
+ 
+But in reality it is,
+docker pull docker.io/library/mongo:4.2
+Note : 'docker.io/library/' is the registry domain. We no need to specify registry name when pulling from Dockerhub as it is added by default by Docker, 
+		but is needed when pulling image from a private repository.
+		
+So in AWS ECR, it will be :
+docker pull 864899828403.dkr.ecr.us-east-1.amazonaws.com/my-app:1.0
+
+Before pushing image to ECR, we need to tag the image using the command :
+docker tag my-app:1.0 864899828403.dkr.ecr.us-east-1.amazonaws.com/my-app:1.0
+Note : What docker tag command actually does is make a copy and rename the docker image name to the new one we provided
+
+Now we push the image to ECR using the command :
+docker push 864899828403.dkr.ecr.us-east-1.amazonaws.com/my-app:1.0
+
+
+
+
+
+Docker volumes is used mainly for data persistance(DB etc).
+Volumes are created by using the docker run -v command
+
+Using host directory, to create a docker volume, we use command :
+docker run -v <host-directory>:<container-directory>
+Note : This method is called Host Volumes and will mount from host-directory to container-directory.
+
+
+To automatically mount directory without host interference we use the command :
+docker run -v <container-directory>
+Note : This method is called Anonymous Volumes and will automatically mount into the container directory. No reference to host.
+
+
+Third way to create a docker volume is an improvement to anonymous volumes :
+docker run -v <host-file-name>:<container-directory>
+Note : This type is called Named Volumes.
+
+Even though there are 3 ways, the most commonly and compulsorily used method to create volumes generally and in production should be Named Volumes.
+
+When using docker-compose, we just specify 'volumes' attribute with volume definition under 'services' attribute and also all the volumes commonly at the end of the compose file :
+Eg :
+version : '3'
+services :
+	mongodb :
+		image : mongo
+		ports :
+			- 27017 : 27017
+		volumes :
+			- db-data : /var/lib/mysql/data
+	mongo - express :
+		.................
+			.....................
+volumes : 
+	db-data
+	
+To check the history of caching layers in Docker container, we use command :
+docker history <image-name>:<tag:name>
+
+Docker has a service called Snyk, which can be used to scan image for vulnerabilities. To use it we simply login to docker and then use the command :
+docker scan <image-name>:<tag/version>
+
+To ignore certain files to not come into the docker image, we can use '.dockerignore' file created with the file lists to skip.
+Note : The file should be kept in the working directory location.
