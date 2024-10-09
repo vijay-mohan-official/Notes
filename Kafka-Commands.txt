@@ -1,0 +1,265 @@
+Kafka commands
+
+Start Zookeeper : 
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+Start Kafka Broker Service : 
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+Creating a Kafka topic to store events : 
+.\bin\windows\kafka-topics.bat --create --topic <TOPIC NAME> --bootstrap-server <KAFKA SERVER URL>
+
+Eg : .\bin\windows\kafka-topics.bat --create --topic topic_demo --bootstrap-server localhost:9092
+
+Producer writing some events into a topic : 
+.\bin\windows\kafka-console-producer.bat --topic <TOPIC NAME> --bootstrap-server <KAFKA SERVER URL>
+
+Eg : .\bin\windows\kafka-console-producer.bat --topic topic_demo --bootstrap-server localhost:9092
+	> hello world
+	> hi
+	
+Consumer consuming/reading events : 
+.\bin\windows\kafka-console-consumer.bat --topic <TOPIC NAME> --from-beginning --bootstrap-server <KAFKA SERVER URL>
+
+Eg : .\bin\windows\kafka-console-consumer.bat --topic topic_demo --from-beginning --bootstrap-server localhost:9092
+
+
+Command to see created topics :
+.\bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 --list
+
+Command to see data available in created topics :
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic your_topic_name --from-beginning
+
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic wikimedia_recentchange --from-beginning
+
+
+
+
+
+
+
+
+
+Tomcat Automation with Build changes
+
+To link a Maven build with Tomcat in Eclipse, and ensure that every change is automatically published to Tomcat, you need to configure Eclipse and Tomcat correctly. Here's a step-by-step guide to achieve this:
+
+Prerequisites
+Eclipse IDE (preferably the EE version which includes tools for Java EE development).
+Apache Tomcat installed.
+Maven installed and configured in Eclipse.
+Steps to Link Maven Build with Tomcat in Eclipse
+Install Eclipse Plugins
+
+Ensure you have the Maven Integration for Eclipse (m2e) plugin installed. This is typically included in Eclipse EE versions.
+Ensure you have the Eclipse Web Tools Platform (WTP) installed.
+Configure Tomcat in Eclipse
+
+Go to Window > Preferences > Server > Runtime Environments.
+Click on Add... and select your version of Apache Tomcat, then click Next.
+Specify the Tomcat installation directory and click Finish.
+Create a Maven Project
+
+If you don't already have a Maven project, create one by going to File > New > Other... and select Maven Project.
+Follow the wizard to create a new Maven project with an appropriate archetype.
+Convert Maven Project to Dynamic Web Project
+
+Right-click on your Maven project in the Project Explorer.
+Select Configure > Convert to Maven Project.
+Modify pom.xml for Dynamic Web Module
+
+Ensure your pom.xml includes the necessary configurations for a web application. Add the maven-war-plugin and configure your web application's structure. For example:
+xml
+Copy code
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-war-plugin</artifactId>
+      <version>3.2.3</version>
+      <configuration>
+        <warSourceDirectory>src/main/webapp</warSourceDirectory>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+Deploy Maven Project to Tomcat
+
+Right-click on your Maven project.
+Go to Run As > Run on Server.
+Select your configured Tomcat server and click Finish.
+Enable Automatic Publishing
+
+Open the Servers view in Eclipse (Window > Show View > Servers).
+Right-click on your Tomcat server and select Open.
+In the server editor, ensure the Automatically publish when resources change option is checked. This ensures that any changes you make to your project are automatically published to Tomcat.
+Build Automatically
+
+Enable automatic building by going to Project > Build Automatically. This ensures that every time you save a file, Eclipse will automatically build the project.
+Additional Tips
+Hot Deployment: For hot deployment, make sure that your web.xml and other important configurations are placed correctly in src/main/webapp/WEB-INF/.
+
+Tomcat Context: You can modify the Tomcat context file if you need more specific configurations for your application deployment.
+
+Maven Goals: Occasionally, you might need to run specific Maven goals (e.g., mvn clean install) to ensure that your project is built correctly.
+
+By following these steps, you can ensure that your Maven project is automatically built and deployed to Tomcat in Eclipse, enabling you to see changes reflected immediately without manually rebuilding and redeploying.
+
+
+
+
+
+
+
+
+
+
+
+Docker commands 
+
+Sample  Dockerfile :
+FROM node:9.4.0-alpine
+COPY app.js .
+COPY package.json .
+RUN npm install &&\
+    apk update &&\
+    apk upgrade
+EXPOSE  8080
+CMD node app.js
+
+
+
+
+
+
+
+
+
+Kubernetes commands
+
+To check version of Kubernetes :
+kubectl version
+
+kubectl requires configuration so that it targets the appropriate cluster. Get cluster information with the following command : 
+kubectl config get-clusters
+
+A kubectl context is a group of access parameters, including a cluster, a user, and a namespace. View your current context with the following command :
+kubectl config get-contexts
+
+Build and push the image again, as it may have been deleted automatically since you completed the first lab :
+docker build -t us.icr.io/$MY_NAMESPACE/hello-world:1 . && docker push us.icr.io/$MY_NAMESPACE/hello-world:1
+
+List all the Pods in your namespace :
+kubectl get pods
+
+Result :
+NAME          READY   STATUS    RESTARTS   AGE
+hello-world   1/1     Running   0          57s
+
+You can also specify the wide option for the output to get more details about the resource :
+kubectl get pods -o wide
+
+Result :
+NAME          READY   STATUS    RESTARTS   AGE   IP              NODE          NOMINATED NODE   READINESS GATES
+hello-world   1/1     Running   0          65s   172.17.149.33   10.241.64.9   <none>           <none>
+
+Run the hello-world image as a container in Kubernetes :
+kubectl run hello-world --image us.icr.io/$MY_NAMESPACE/hello-world:1 --overrides='{"spec":{"template":{"spec":{"imagePullSecrets":[{"name":"icr"}]}}}}'
+
+The --overrides option here enables us to specify the needed credentials to pull this image from IBM Cloud Container Registry. Note that this is an imperative command, as we told Kubernetes explicitly what to do: run hello-world.
+
+Describe the Pod to get more details about it :
+kubectl describe pod hello-world
+
+Result :
+Name:                 hello-world
+Namespace:            sn-labs-vijaymohanof
+Priority:             1
+Priority Class Name:  normal
+Service Account:      default
+Node:                 10.241.64.9/10.241.64.9
+Start Time:           Mon, 03 Jun 2024 03:16:48 -0400
+Labels:               run=hello-world
+Annotations:          cni.projectcalico.org/containerID: dab74251f09489d3865d19c4f1e1e8f8f2a25243e080f95d9669b1380cc6bba6
+                      cni.projectcalico.org/podIP: 172.17.149.33/32
+                      cni.projectcalico.org/podIPs: 172.17.149.33/32
+                      kubernetes.io/limit-ranger:
+                        LimitRanger plugin set: cpu, ephemeral-storage, memory request for container hello-world; cpu, ephemeral-storage, memory limit for contain...
+Status:               Running
+IP:                   172.17.149.33
+IPs:
+  IP:  172.17.149.33
+Containers:
+  hello-world:
+    Container ID:   containerd://c5d9c932f44213375cb307b38759fa6daeecc81fd81c1017d831d1b6f1b2f930
+    Image:          us.icr.io/sn-labs-vijaymohanof/hello-world:1
+    Image ID:       us.icr.io/sn-labs-vijaymohanof/hello-world@sha256:8972cdf9985a9f3fe83010540762fb585b69e8ae59b420ba5c1440f6aa2e74b5
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Mon, 03 Jun 2024 03:16:52 -0400
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:                500m
+      ephemeral-storage:  5Gi
+      memory:             512Mi
+    Requests:
+      cpu:                200m
+      ephemeral-storage:  512Mi
+      memory:             128Mi
+    Environment:          <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-j7xps (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-j7xps:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 600s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 600s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  109s  default-scheduler  Successfully assigned sn-labs-vijaymohanof/hello-world to 10.241.64.9
+  Normal  Pulling    108s  kubelet            Pulling image "us.icr.io/sn-labs-vijaymohanof/hello-world:1"
+  Normal  Pulled     105s  kubelet            Successfully pulled image "us.icr.io/sn-labs-vijaymohanof/hello-world:1" in 2.214653762s (2.214676056s including waiting)
+  Normal  Created    105s  kubelet            Created container hello-world
+  Normal  Started    105s  kubelet            Started container hello-world
+  
+  
+Delete the Pod :
+kubectl delete pod hello-world
+
+
+
+Create a Pod with imperative object configuration 
+A sample yaml file to create a pod :
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec:
+  containers:
+  - name: hello-world
+    image: us.icr.io/<my_namespace>/hello-world:1
+    ports:
+    - containerPort: 8080
+  imagePullSecrets:
+  - name: icr
+
+Creating a pod using configuration file :
+kubectl create -f hello-world-create.yaml
+
