@@ -1,0 +1,48 @@
+MongoDB Notes
+Tables in SQL == Collections in MongoDB
+Columns in SQL == Fields in MongoDB
+Rows in SQL == Documents in MongoDB
+
+To list DBs :
+show dbs
+
+To create and use a DB :
+use <db-name>
+Eg : use school
+
+To show the collections :
+show collections
+
+To create a collection and insert a field :
+db.<collection-name>.insertOne({<json-data-to-insert-as-document>})
+Eg : db.students.insertOne({"name":"Vijay","age":"24"})
+
+To view Collection data :
+db.<collection-name>.find()
+Eg : db.students.find()
+{
+  _id: ObjectId('66fe23af5639276ca3f74e6d'),
+  name: 'Vijay',
+  age: 24
+}
+{
+  _id: ObjectId('66fe23ec5639276ca3f74e6e'),
+  name: 'Smitha',
+  age: 54
+}
+_id: ObjectId('66fe23af5639276ca3f74e6d') => id is automatically generated and is unique for each document
+
+To view json in an ordered format use pretty() :
+db.<collection-name>.find().pretty()
+
+To find a document in Collection using filters :
+db.<collection-name>.find({<json-filter>})
+Eg : db.student.find({"name":"Vijay"})
+
+To delete a document with filter :
+db.<collection-name>.deleteOne({<json-filter>})
+Eg : db.student.deleteOne({"name":"Vijay"})
+
+To delete all documents :
+db.<collection-name>.deleteMany({})
+Eg : db.student.deleteMany({})
