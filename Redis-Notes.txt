@@ -1,0 +1,35 @@
+Redis
+
+Installation in Windows : 
+Redis is Linux based and hence needs a Linux environment, so in Windows we can create by enabling WSL2 (Windows Subsystem for Linux).
+
+To install WSL > Open cmd :
+wsl --install
+
+To check installed WSL :
+wsl -l -v
+
+To open and view Linux cli :
+wsl -d <DistributionName>
+Note : <DistributionName> will be obtained as output of command wsl -l -v
+
+Installing Redis :
+curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+sudo apt-get update
+
+sudo apt-get install redis
+
+To start the redis server :
+sudo service redis-server start
+
+To access redis-cli :
+redis-cli
+
+To set a value in Redis :
+set <key-name> <value-name>
+Eg : set name vijay
+
+To get a value present in Redis :
+get <key-name>
+Eg : get name
