@@ -107,16 +107,75 @@ Methods written inside a Controller class should be public so that they can be a
 
 @RequestBody - Asking Spring to take the data from the request and convert into a java object that we can use in code 
 
+ORM - Object-Relational Mapping
+ORM is a technique used by to map Java objects to database tables.
+It allows developers to work with databases using object-oriented programming concepts, making it easier to interact with relational databases.
 
+Consider a Java class User and a database table users.
+ORM frameworks like Hibernate can map the fields in the User class to columns in the users table, making it easier to insert, update, retrieve and delete records.
 
+JPA - Java Persistence API
+A way to achieve ORM, includes interfaces and annotations that you use in your Java classes, requires a persistance provider(ORM tools) for implementation.
+To use JPA, you need a persistance provider.
+A persistance provider is a specific implementation of the JPA specification.
+Examples of JPA Persistence providers include Hibernate, Eclipse Link and OpenJPA.
+These providers implement the JPA interfaces and provide the underlying functionality to interact with databases.
 
+Spring Data JPA
+Spring Data JPA is built on top of the JPA(Java Persistence API) specification, but it is not a JPA implementation itself.
+Instead, it simplifies working with JPA by providing higher level abstractions and utilities.
+However, to use Spring Data JPA effectively, you still need a JPA implementation, such as Hibernate, EclipseLink or another JPA-compliant provider to handle the actual database interactions.
 
+JPA is designed for working with relational databases, where data is stored in a predefined schema.
+MongoDB on the otherhand is a NoSQL database that uses a different data model, typically based on collections of documents which are schema-less or have flexible schemas.
+This fundamental difference in data models and storage structures is why JPA is not used with MongoDB.
 
+In the case of MongoDB you don't have a traditional JPA persistance provider.
+MongoDB is a NoSQL database, and Spring Data MongoDB serves as the persistance provider for MongoDB.
+It provides the necessary abstractions and implementations to work with MongoDB in a Spring application.
+
+Query Method DSL and Criteria API are two different ways to interact with a database when using Spring Data JPA for relational databases and Spring Data MongoDB for MongoDB databases.
+Spring Data JPA is a part of the Spring framework that simplifies data access in Java applications, while Spring Data MongoDB provides similar functionality for MongoDB.
+
+Query Method DSL is a simple and convenient way to create queries based on method naming conventions.
+While the criteria API offers a more dynamic and programmatic approach for building complex and custom queries.
+
+Best Practice in SpringBoot :
+Controller ------> Service ------> Repository
 
 Response Entity is part of the Spring Framework and is commonly used in SpringBoot applications to customize the HTTP response.
 It provides methods for setting the response status, headers and body.
 You can use it to return different types of data in your controller methods, such as JSON, XML or even HTML.
 You can use Generics with Response Entity to specify the type of data you are returning.
+
+An HTTP status code is a three digit numeric code returned by a webserver as part of a response to an HTTP request made by a client.
+These codes are used to convey information about the result or status of the requested operation.
+They are grouped into five categories based on their first digit :
+1xx - Informational(These status codes indicate that the request was received and understood, and the server is continuing to process it. 
+		Used for informational purposes and are rarely seen in practice.)
+
+2xx - Successful (These status codes indicate thate the request was successfully received, understood and processed by the server)
+	200 - OK (Request has been successfully processed and server is returning the requested resource)
+	201 - CREATED (Request has been fulfilled and a new resource has been created as a result)
+	204 - NO CONTENT (Request was successful, but there is no response body(typically used for operations that don't return data, like a successful deletion))
+	
+3xx - Redirection (These status codes indicate that further action is needed to complete the request. 
+They are used when the client needs to take steps to access the requested resource)
+	301 - MOVED PERMANENTLY (The requested resource has been permanently moved to a different URL)
+	302 - FOUND (The HTTP status code 302 indicates that the requested resource has been temporarily moved to a different URL. 
+					When a server sends a response with a 302 status code, it typically includes a location header 						field that specifies the new temporary URL
+					where the client should redirect to.)
+	304 - NOT MODIFIED (The client's cached version of the requested resource is still valid, so the server sends this status code 						to indicate that the client can use its cached copy)
+
+4xx - Client Error (These status codes indicate that there an error on the client's part, such as a malformed request or authentication 			issues)
+	400 - BAD REQUEST (The server cannot understand or process the client's request due to invalid syntax or other client-side 					issues)
+	401 - UNAUTHORIZED (The client needs to provide authentication credentials to access the requested resource)
+	403 - FORBIDDEN (The client is authenticated, but it doesn't have permission to access the request resource)
+	
+5xx - Server Error (These status codes indicate that there was an error on the server's part while trying to fulfil the request)
+	500 - INTERNAL SERVER ERROR (A generic error message indicating that something went wrong on the server, and server couldn't 						handle the request)
+	502 - BAD GATEWAY (The server acting as a gateway or proxy received an invalid response from an upstream server)
+	503 - SERVICE UNAVAILABLE (The server is currently unable to handle the request due to a temporary overloading or maintenance)
 
 Lombok Library
 Lombok is a popular library in the Java ecosystem, often used in SpringBoot applications.
