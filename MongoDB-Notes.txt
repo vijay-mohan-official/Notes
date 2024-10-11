@@ -46,3 +46,7 @@ Eg : db.student.deleteOne({"name":"Vijay"})
 To delete all documents :
 db.<collection-name>.deleteMany({})
 Eg : db.student.deleteMany({})
+
+To start MongoDB zip download from Terminal,
+Move to \bin folder of MongoDB and then run the command :
+mongod --dbpath C:\Softwares\MongoDB\data\db
