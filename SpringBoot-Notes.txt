@@ -1,3 +1,56 @@
+SpringBoot Notes
+Spring Boot is a framework for building applications in Java programming language.
+Spring Boot makes it easy to create standalone production-grade Spring-based applications that you can just run.
+
+We need to manually set up application context in the main method in a Spring application.
+We use the @SpringBootApplication annotation on the main class.
+This single annotation replaces the need for setting up manual Spring application context.
+We no longer need to explicitly create an application context using annotation config application context as SpringBoot handles that behind the scenes. 
+
+We use SpringApplication.run() to start the application, and Spring Boot takes care of configuring the embedded web server and other necessary components. 
+The @SpringBootApplication annotation alone brings in a lot of pre-configured features including automatic component scanning and embedded server configuration, which would have required more steps in a traditional Spring setup. 
+
+JAR - Java Archive (Can be simply run from CLI)
+WAR - Web Application Archive (Should be deployed on a Web server)
+
+To check the process ID or application running on your system :
+tasklist /FI "PID eq <Process-ID>"
+
+Maven - Build automation tool
+		Dependency management tool
+		
+pom.xml - Project Object Model.xml
+
+Maven Lifecycle : validate > compile > test > package > verify > install > deploy
+validate - Checks if everything is written correctly in pom.xml
+compile - Compile source code to target folder
+test - Tests you app, if there are any tests written
+package - Creates jar in target folder
+install - Install the jar in you m2 local repository
+deploy - To copy jar to a remote repository
+
+clean - To remove everything in target folder
+
+If Maven is not installed, we can use Maven wrapper provided by SpringBoot :
+mvn validate is used to validate a project if mvn is installed in your system
+When using Maven wrapper, we use command
+./mvnw validate
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+Used to compare the pom.xml file and ensure that it is well formatted and can be correctly intepretted by Maven.
+
+<properties>
+		<java.version>1.8</java.version>
+</properties>
+The reason why we specify java version inside properties is to override maven plugin and let it know that the byte code generated should be compatible with version specified.
+
+When we package or install an application, two jars are created :
+<project-name>.jar - Contains all the compiled classes, resources, and dependencies packaged together, allowing you to run your application easily using the java -jar command.(FAT jar)
+<project-name>.jar.original - Represent the original state of the JAR before modifications or optimizations were applied.
+
+SpringBoot Maven plugin initially creates the .jar.original file and then repackages with all the dependencies.
+
 In Java to create an object of a class, we use new operator :
 Car car = new Car();
 
