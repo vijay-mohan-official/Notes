@@ -71,6 +71,7 @@ docker run -d -p 8081:8081 -e ME_CONFIG_MONGODB_SERVER=mongodb -e ME_CONFIG_MONG
 
 
 
+
 To start containers individually is very difficult and time consuming. So we use docker-compose command which uses a yaml file which has all necessary container names to up them all together.
 docker-compose -f <file-name> up
 Eg : docker-compose -f mongo.yaml -d
@@ -219,3 +220,19 @@ docker scan <image-name>:<tag/version>
 
 To ignore certain files to not come into the docker image, we can use '.dockerignore' file created with the file lists to skip.
 Note : The file should be kept in the working directory location.
+
+
+
+#IBM Notes
+Sample  Dockerfile :
+FROM node:9.4.0-alpine
+COPY app.js .
+COPY package.json .
+RUN npm install &&\
+    apk update &&\
+    apk upgrade
+EXPOSE  8080
+CMD node app.js
+
+Build and push the image again, as it may have been deleted automatically since you completed the first lab :
+docker build -t us.icr.io/$MY_NAMESPACE/hello-world:1 . && docker push us.icr.io/$MY_NAMESPACE/hello-world:1
