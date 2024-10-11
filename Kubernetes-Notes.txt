@@ -481,3 +481,351 @@ It can create, update and delete components.
 This is a security issue.
 
 So, in version 3 they removed Tiller, which solved security concern, but made it more difficult to use and loses the release management feature.
+
+
+
+
+
+
+
+
+
+
+
+#IBM Cloud Notes
+To check version of Kubernetes :
+kubectl version
+
+kubectl requires configuration so that it targets the appropriate cluster. Get cluster information with the following command : 
+kubectl config get-clusters
+
+A kubectl context is a group of access parameters, including a cluster, a user, and a namespace. View your current context with the following command :
+kubectl config get-contexts
+
+Build and push the image again, as it may have been deleted automatically since you completed the first lab :
+docker build -t us.icr.io/$MY_NAMESPACE/hello-world:1 . && docker push us.icr.io/$MY_NAMESPACE/hello-world:1
+
+List all the Pods in your namespace :
+kubectl get pods
+
+Result :
+NAME          READY   STATUS    RESTARTS   AGE
+hello-world   1/1     Running   0          57s
+
+You can also specify the wide option for the output to get more details about the resource :
+kubectl get pods -o wide
+
+Result :
+NAME          READY   STATUS    RESTARTS   AGE   IP              NODE          NOMINATED NODE   READINESS GATES
+hello-world   1/1     Running   0          65s   172.17.149.33   10.241.64.9   <none>           <none>
+
+Run the hello-world image as a container in Kubernetes :
+kubectl run hello-world --image us.icr.io/$MY_NAMESPACE/hello-world:1 --overrides='{"spec":{"template":{"spec":{"imagePullSecrets":[{"name":"icr"}]}}}}'
+
+The --overrides option here enables us to specify the needed credentials to pull this image from IBM Cloud Container Registry. Note that this is an imperative command, as we told Kubernetes explicitly what to do: run hello-world.
+
+Describe the Pod to get more details about it :
+kubectl describe pod hello-world
+
+Result :
+Name:                 hello-world
+Namespace:            sn-labs-vijaymohanof
+Priority:             1
+Priority Class Name:  normal
+Service Account:      default
+Node:                 10.241.64.9/10.241.64.9
+Start Time:           Mon, 03 Jun 2024 03:16:48 -0400
+Labels:               run=hello-world
+Annotations:          cni.projectcalico.org/containerID: dab74251f09489d3865d19c4f1e1e8f8f2a25243e080f95d9669b1380cc6bba6
+                      cni.projectcalico.org/podIP: 172.17.149.33/32
+                      cni.projectcalico.org/podIPs: 172.17.149.33/32
+                      kubernetes.io/limit-ranger:
+                        LimitRanger plugin set: cpu, ephemeral-storage, memory request for container hello-world; cpu, ephemeral-storage, memory limit for contain...
+Status:               Running
+IP:                   172.17.149.33
+IPs:
+  IP:  172.17.149.33
+Containers:
+  hello-world:
+    Container ID:   containerd://c5d9c932f44213375cb307b38759fa6daeecc81fd81c1017d831d1b6f1b2f930
+    Image:          us.icr.io/sn-labs-vijaymohanof/hello-world:1
+    Image ID:       us.icr.io/sn-labs-vijaymohanof/hello-world@sha256:8972cdf9985a9f3fe83010540762fb585b69e8ae59b420ba5c1440f6aa2e74b5
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Mon, 03 Jun 2024 03:16:52 -0400
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:                500m
+      ephemeral-storage:  5Gi
+      memory:             512Mi
+    Requests:
+      cpu:                200m
+      ephemeral-storage:  512Mi
+      memory:             128Mi
+    Environment:          <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-j7xps (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-j7xps:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 600s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 600s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  109s  default-scheduler  Successfully assigned sn-labs-vijaymohanof/hello-world to 10.241.64.9
+  Normal  Pulling    108s  kubelet            Pulling image "us.icr.io/sn-labs-vijaymohanof/hello-world:1"
+  Normal  Pulled     105s  kubelet            Successfully pulled image "us.icr.io/sn-labs-vijaymohanof/hello-world:1" in 2.214653762s (2.214676056s including waiting)
+  Normal  Created    105s  kubelet            Created container hello-world
+  Normal  Started    105s  kubelet            Started container hello-world
+  
+  
+Delete the Pod :
+kubectl delete pod hello-world
+
+
+
+Create a Pod with imperative object configuration 
+A sample yaml file with object configuration to create a pod :
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec:
+  containers:
+  - name: hello-world
+    image: us.icr.io/<my_namespace>/hello-world:1
+    ports:
+    - containerPort: 8080
+  imagePullSecrets:
+  - name: icr
+
+Creating a pod using configuration file :
+kubectl create -f hello-world-create.yaml
+
+
+
+
+
+
+
+
+Create a Pod with a declarative command :
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  generation: 1
+  labels:
+    run: hello-world
+  name: hello-world
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: hello-world
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: hello-world
+    spec:
+      containers:
+      - image: us.icr.io/<my_namespace>/hello-world:1
+        imagePullPolicy: Always
+        name: hello-world
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 2m
+            memory: 30Mi
+          requests:
+            cpu: 1m
+            memory: 10Mi   
+      imagePullSecrets:
+      - name: icr
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+
+
+We are creating a Deployment (kind: Deployment).
+There will be three replica Pods for this Deployment (replicas: 3).
+The Pods should run the hello-world image (- image: us.icr.io/<my_namespace>/hello-world:1).
+
+
+Use the kubectl apply command to set this configuration as the desired state in Kubernetes :
+kubectl apply -f hello-world-apply.yaml
+
+Get the Deployments to ensure that a Deployment was created :
+kubectl get deployments
+
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+hello-world   0/3     3            0           21s
+
+kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+hello-world-54d6c7b9c7-njbcc   0/1     InvalidImageName   0          52s
+hello-world-54d6c7b9c7-njxv5   0/1     InvalidImageName   0          52s
+hello-world-54d6c7b9c7-pnclt   0/1     InvalidImageName   0          52s
+
+
+kubectl delete pod hello-world-54d6c7b9c7-pnclt && kubectl get podspod 
+"hello-world-54d6c7b9c7-pnclt" deleted
+NAME                           READY   STATUS              RESTARTS   AGE
+hello-world-54d6c7b9c7-n877t   0/1     ContainerCreating   0          1s
+hello-world-54d6c7b9c7-njbcc   0/1     InvalidImageName    0          113s
+hello-world-54d6c7b9c7-njxv5   0/1     InvalidImageName    0          113s
+
+
+In order to access the application, we have to expose it to the internet using a Kubernetes Service :
+kubectl expose deployment/hello-world
+
+List Services in order to see that this service was created :
+kubectl get services
+
+Delete the Deployment and Service. This can be done in a single command by using slashes :
+kubectl delete deployment/hello-world service/hello-world
+
+Use the scale command to scale up your Deployment :
+kubectl scale deployment hello-world --replicas
+
+Similarly, you can use the scale command to scale down your Deployment :
+kubectl scale deployment hello-world --replicas=1
+
+Update the deployment to use this version instead :
+kubectl set image deployment/hello-world hello-world=us.icr.io/$MY_NAMESPACE/hello-world:2
+
+Get a status of the rolling update by using the following command :
+kubectl rollout status deployment/hello-world
+
+You can also get the Deployment with the wide option to see that the new tag is used for the image :
+kubectl get deployments -o wide
+
+It’s possible that a new version of an application contains a bug. In that case, Kubernetes can roll back the Deployment like this :
+kubectl rollout undo deployment/hello-world
+
+Get a status of the rolling update by using the following command :
+kubectl rollout status deployment/hello-world
+
+Create a ConfigMap that contains a new message :
+kubectl create configmap app-config --from-literal=MESSAGE="This message came from a ConfigMap!"
+
+
+
+Sample yaml of a deployment configuration
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  selector:
+    matchLabels:
+      run: hello-world
+  template:
+    metadata:
+      labels:
+        run: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: us.icr.io/sn-labs-vijaymohanof/hello-world:3
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: app-config
+      imagePullSecrets:
+        - name: icr
+
+Apply the new Deployment configuration :
+kubectl apply -f deployment-configmap-env-var.yaml
+
+Because the configuration is separate from the code, the message can be changed without rebuilding the image. Using the following command, delete the old ConfigMap and create a new one with the same name but a different message :
+kubectl delete configmap app-config && kubectl create configmap app-config --from-literal=MESSAGE="This message is different, and you didn't have to rebuild the image!"
+
+
+Restart the Deployment so that the containers restart. This is necessary since the environment variables are set at start time. 
+kubectl rollout restart deployment hello-world
+
+
+Delete the Deployment :
+kubectl delete -f deployment-configmap-env-var.yam
+
+Delete the Service.
+kubectl delete service hello-world
+
+Sample deployment yaml file :
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  selector:
+    matchLabels:
+      run: hello-world
+  template:
+    metadata:
+      labels:
+        run: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: us.icr.io/sn-labs-vijaymohanof/hello-world:1
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 2m
+            memory: 30Mi
+          requests:
+            cpu: 1m
+            memory: 10Mi  
+        
+      imagePullSecrets:
+        - name: icr
+
+Run your image as a Deployment :
+kubectl apply -f deployment.yaml
+
+
+
+
+
+OpenShift commands
+
+Verify that oc CLI is installed :
+oc version
+
+List the Pods in this namespace :
+oc get pods
+
+OpenShift specific objects :
+oc get buildconfigs
+
+View the OpenShift project that is currently in use :
+oc project
