@@ -213,3 +213,58 @@ Spring Security will generate a default user with a random password that is prin
 You can also configure username and password in application.properties file.
 spring.security.user.name=user
 spring.security.user.password=password
+
+
+
+
+
+
+Basic Authentication(Passing username and password in header) by its design is stateless.
+
+Some applications do mix Basic Authentication with session management for various reasons. 
+This isn't standard behaviour and requires additional setup and logic.
+In such scenarios, once user credentials are verified via Basic Authentication, a session might be established, and the client is provided with a session cookie.
+This way, the client won't need to send the Authorization header with every request, and the server can rely on the session cookie to identify the authenticated user.
+
+When you login with Spring Security, it manages your authentication across multiple requests, despite HTTP being stateless.\
+
+1) Session Creation : After successful authentication, an HTTP session is formed. Your authentication details are stored in the session.
+2) Session Cookie : A JSESSIONID cookie is sent to your browser, which gets sent back with subsequent requests, helping the server recognize your session.
+3) Security Context : Using the JSESSIONID, Spring Security fetches your authentication details for each request.
+4) Session Timeout : Sessions have a limited life. If you're inactive past this limit, you're logged out.
+5) Logout : When logging out, your session ends and the related cookie is removed.
+6) Remember-Me : Spring Security can remember you even after the session ends using a different persistent cookie(typically have a longer lifespan).
+
+In essense, Spring Security leverages sessions and cookies, mainly JSESSIONID, to ensure you remain authenticated across requests. 
+
+
+Spring Security using users in DB. We need a few configurations :
+1) A User entity to represent the user data model.
+2) A repository UserRepository to interact with DB.
+3) UserDetailsService implementation to fetch user details.(UserDetailsService interface is a part of Spring Security which has a function loadUserByUsername)
+4) A configuration SecurityConfig to integrate everything with Spring Security.
+
+
+Classpath - List of jars and directories that JVM uses.
+A way to let JVM know that dependencies that it needs are present here.
+
+How is application.properties file found by SpringBoot?
+application.properties file will be present inside the root folder in the path /src/main/resources/. 
+This path will be present in classpath and using this SpringBoot finds the application.properties file.
+
+application.properties file syntax is key=value format.
+
+We can use another format of file also to configure properties in SpringBoot - application.yml.(YAML)
+YAML is a recursive acronym, i.e, its full form also has YAML.(YAML == YAML Ain't Markup Language)
+It doesn't work like traditional markup languages and uses intendations.
+File extension is .yml
+
+If both application.properties file and application.yml file are present and have same key, then precedence is given to application.properties file's key value.
+
+Another way to share properties is via cmd :
+java -jar -<jar-name>.jar --<property-name>=<value>
+Eg : java -jar journalApp.jar --server.port=8090
+
+If same property is passed via CLI and present in yml file, precedence is given for CLI arguments.
+
+So the order is CLI arguments -> application.properties -> application.yml
