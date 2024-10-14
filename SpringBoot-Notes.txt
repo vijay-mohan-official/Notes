@@ -214,10 +214,38 @@ You can also configure username and password in application.properties file.
 spring.security.user.name=user
 spring.security.user.password=password
 
+@EnableWebSecurity
+This annotation signals Spring to enable its web security support.
+This is what makes your application secured.
+It is used in conjunction with @Configuration.
 
+WebSecurityConfigurerAdapter is a utility class in the Spring Security framework that provides default configurations and allow customization of certain features.
+By extending it, you can configure and customize Spring Security for you application needs.
 
+protected void configure(HttpSecurity http)
+The configure() method provides a way to configure how requests are secured.
+It defines how request matching should be done and what security actions should be applied.
 
+http.authorizeRequests() : This tells Spring Security to start authorize the requests.
 
+.anyMatchers("/hello").permitAll() : This part specifies that HTTP requests matching the path '/hello' should be permitted(allowed) for all users, 
+									 whether they are authenticated or not.
+
+.anyRequest.authenticated() : This is a more general matcher that specifies any request(not matched by previous matchers) should be authenticated, 
+							  meaning users have to provide valid credentials to access these endpoints.
+							  
+.and() : This is a method to join several configurations. It helps to continue the configuration from the root.(HttpSecurity)
+
+.formLogin() : This enables form-based authentication. By default, it will provide a form for the user to enter their username and password. 
+			   If the user is not authenticated and they try to access a secured endpoint, they'll be redirected to the default login form.
+			   
+When we use the .formLogin() method in our security configuration without specifying .loginPage("/custom-path"), the default login page becomes active.
+
+Spring Security provides an inbuilt controller that handles the /login path. 
+This controller is responsible for rendering the default login form when a GET request is made to /login.
+
+By default, Spring Security also provides a logout functionality. 
+When .logout() is configured, a POST request to /logout will log the user out and invalidate their session.
 
 Basic Authentication(Passing username and password in header) by its design is stateless.
 
