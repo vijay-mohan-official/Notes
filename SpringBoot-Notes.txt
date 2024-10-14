@@ -296,3 +296,34 @@ Eg : java -jar journalApp.jar --server.port=8090
 If same property is passed via CLI and present in yml file, precedence is given for CLI arguments.
 
 So the order is CLI arguments -> application.properties -> application.yml
+
+JUnit
+Testing framework for Java to write tests.
+@SpringBootTest : Annotation in Spring Boot that is used to indicate that a test class should run with Spring Boot’s testing support. 
+				  It provides a way to load the full application context, making it suitable for integration testing where you want to test 
+				  components in a Spring application together.
+
+@Test: Marks a method as a test method.
+
+@Disabled : Annotation in JUnit 5 (part of the Jupiter API) that is used to temporarily disable a test class or a test method.
+
+Parameterized Tests: 
+JUnit supports parameterized tests, allowing the same test to be run with different input values.
+
+@ParameterizedTest : You can easily create parameterized tests using this annotation along with various sources for parameters.
+
+JUnit 5 supports various sources for parameters, including:
+
+@ValueSource: Provides a simple array of values.
+@EnumSource: Uses enum constants as parameters.
+@MethodSource: Calls a method to supply parameters.
+@CsvSource: Provides comma-separated values for multiple parameters.
+@CsvFileSource: Reads parameters from a CSV file.
+
+Assertions: 
+JUnit provides a set of assertion methods to test conditions. For example:
+
+assertEquals(expected, actual): Checks if two values are equal.
+assertTrue(condition): Checks if a condition is true.
+assertFalse(condition): Checks if a condition is false.
+assertNull(object): Checks if an object is null.
