@@ -327,3 +327,30 @@ assertEquals(expected, actual): Checks if two values are equal.
 assertTrue(condition): Checks if a condition is true.
 assertFalse(condition): Checks if a condition is false.
 assertNull(object): Checks if an object is null.
+
+JUnit(Jupiter(JUnit5))
+@BeforeEach: This annotation is used to specify a method that should be executed before each test method in a class
+@AfterEach: This annotation indicates a method that should run after each test method. It's useful for cleaning up resources or resetting state.
+
+@BeforeAll: An annotation that indicates a method to be executed once before any of the tests in a test class.
+@AfterAll: n annotation that marks a method to be executed once after all tests in a test class have been run.
+
+Mockito
+@RunWith : Integrates the Spring Test framework with JUnit. It allows for Spring features like dependency injection to work within the tests.
+@SpringBootTest: Indicates that the class is a Spring Boot test. It loads the full application context, making it suitable for integration tests.
+@MockBean: Creates a mock of a Spring bean and adds it to the application context. 
+		    This allows you to replace a real bean with a mock for testing purposes, enabling you to simulate different scenarios without relying 
+			on the actual implementation.
+@InjectMocks: Creates an instance of the class under test and injects the mocks (created with @Mock or @MockBean) into it. 
+			  This is useful for unit testing, where you want to isolate the class under test from its dependencies.
+@Test:Marks a method as a test method to be run by the testing framework (JUnit). It signifies that this method contains test logic.
+
+Mockito.when():Used to specify what should be returned when a specific method on a mock is called.
+assertEquals(): A JUnit assertion that checks if two values are equal. It’s used to verify that the actual output of the method matches the expected output.
+Mockito.verify(): Verifies that a specific method on a mock was called with specified parameters. 
+				  This is useful for ensuring that interactions with the mock happened as expected.
+
+Profiling
+mvn clean package -D spring.profiles.active=prod
+
+java -jar app.jar --spring.profiles.active=prod
