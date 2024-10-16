@@ -354,3 +354,65 @@ Profiling
 mvn clean package -D spring.profiles.active=prod
 
 java -jar app.jar --spring.profiles.active=prod
+
+
+Logging
+Logging is an essential aspect of application development that allows developers to monitor and trouble shoot their applications.
+SpringBoot supports various logging frameworks, such as Logback, Log4j2 and Java Util Logging(JUL).
+
+Logback : A popular logging framework that serves as the default in many SpringBoot applications. It offers flexible configuration and good performance.
+Log4j2 : Another widely used logging framework with features such as asynchronous logging and support for various output formats.
+Java Util Logging(JUL) : The default logging framework included in the Java Standard Edition. While it's less feature-rich than some of the third-party frameworks,
+						 it is straight forward and is part of the Java platform.
+						 
+Logback						 
+SpringBoot comes with a default logging configuration that uses Logback as the default logging implementation. 
+It provides a good balance between simplicity and flexibiliy.
+The default configuration is embedded within the SpringBoot libraries, and it may not be visible in your project's source code.
+
+If you want to customize the logging configuration, you can create your own logback-spring.xml or logback.xml file in src/main/resources/ directory.
+When SpringBoot detects this file in your project, it will use it instead of the default configuration.
+
+2024-10-16 12:21:18.757  INFO 17020 --- [           main] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:7, serverValue:84705}] to cluster0-shard-00-02.bnk3k.mongodb.net:27017
+
+2024-10-16 12:21:18.757 - Date Time
+INFO - Log Levels(INFO, DEBUG, ERROR, TRACE etc)
+17020 - Process Id
+[           main] - Identifier of thread
+org.mongodb.driver.connection - Package
+Opened connection [connectionId{localValue:7, serverValue:84705}] to cluster0-shard-00-02.bnk3k.mongodb.net:27017 - Log Message
+
+Logging Levels
+They help to categorize log statements based on their severity. The common logging levels are :
+TRACE 
+DEBUG
+INFO
+WARN 
+ERROR
+
+We can set the desired logging level for specific packages or classes, allowing them to control the amount of information logged at runtime.
+By default logging is enabled for INFO, WARN, ERROR.
+TRACE and DEBUG should be enabled in application to obtain those loggers.
+
+Spring Boot provides annotations like @Slf4j and @Log4j2 that you can automatically inject logger instances into your classes.
+Slf4j is a logging abstraction framework which helps to use the underlying logging implementations.
+Slf4j full form : Simple Logging Facade For Java
+
+To write logger statements in a class, we need to creates a logger instance for that class,
+private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+The above statement was what used to write before, but now we just need to annotate the class with @Slf4j.
+
+SpringBoot allows you to configure logging using properties or YAML files.
+logging:
+	level:
+		<base-package>: DEBUG
+		
+To completely disable loggers :
+logging:
+	level:
+		root: OFF
+		
+logback.xml
+The <configuration> element is the root element of the logback.xml file.
+All Logback configuration is enclosed within this element.
