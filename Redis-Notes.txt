@@ -33,3 +33,6 @@ Eg : set name vijay
 To get a value present in Redis :
 get <key-name>
 Eg : get name
+
+Delete a value :
+del <key-name>
