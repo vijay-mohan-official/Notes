@@ -326,7 +326,8 @@ Spring Security using users in DB. We need a few configurations :
 
 
 JWT
-JSON Web Token is a way to securely
+JSON Web Token is a way to securely transmit information between parties as a JSON object.
+JWT is a compact, URL-safe token that can carry information between parties.
 
 
 
