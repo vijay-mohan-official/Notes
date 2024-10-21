@@ -10,6 +10,12 @@ We no longer need to explicitly create an application context using annotation c
 We use SpringApplication.run() to start the application, and Spring Boot takes care of configuring the embedded web server and other necessary components. 
 The @SpringBootApplication annotation alone brings in a lot of pre-configured features including automatic component scanning and embedded server configuration, which would have required more steps in a traditional Spring setup. 
 
+
+
+
+
+
+
 JAR - Java Archive (Can be simply run from CLI)
 WAR - Web Application Archive (Should be deployed on a Web server)
 
@@ -51,6 +57,14 @@ When we package or install an application, two jars are created :
 
 SpringBoot Maven plugin initially creates the .jar.original file and then repackages with all the dependencies.
 
+
+
+
+
+
+
+
+
 In Java to create an object of a class, we use new operator :
 Car car = new Car();
 
@@ -74,12 +88,23 @@ Only one class will have @SpringBootApplication annotation in a project.
 @Autowired annotation is used for Dependency Injection.
 We ask Spring to return an object stored in IOC container.
 
+
+
+
+
 Spring Initializr - spring.io is used to set up a simple SpringBoot project with necessary dependencies
 Group - com.<company-name>  : Used to specify company name which is developing the application in reverse domain fashion
 Artifact : Used to specify the name of application that we are going to create.(Start with small letter)
 Name : Name of application in human readable format
 Description : Details of application that we are creating
 Package Name : Group.Artifact
+
+
+
+
+
+
+
 
 REST-API
 REST : Representational State Transfer(Representational == > Client and Server and in b/w we transfer data)
@@ -143,6 +168,14 @@ While the criteria API offers a more dynamic and programmatic approach for build
 Best Practice in SpringBoot :
 Controller ------> Service ------> Repository
 
+
+
+
+
+
+
+
+Response Entity and Status Codes
 Response Entity is part of the Spring Framework and is commonly used in SpringBoot applications to customize the HTTP response.
 It provides methods for setting the response status, headers and body.
 You can use it to return different types of data in your controller methods, such as JSON, XML or even HTML.
@@ -177,6 +210,14 @@ They are used when the client needs to take steps to access the requested resour
 	502 - BAD GATEWAY (The server acting as a gateway or proxy received an invalid response from an upstream server)
 	503 - SERVICE UNAVAILABLE (The server is currently unable to handle the request due to a temporary overloading or maintenance)
 
+
+
+
+
+
+
+
+
 Lombok Library
 Lombok is a popular library in the Java ecosystem, often used in SpringBoot applications.
 It aims to reduce the boilerplate code that developers have to write such as getters, setters, constructors etc.
@@ -187,6 +228,16 @@ This generated code is added to the compiled class files.(.class files)
 The Java compiler compiles your classes, including the generated code.
 This means that the generated methods become part of your compiled class files.
 When you run your application, the generated methods are available for use, just like any other methods in your classes.
+
+
+
+
+
+
+
+
+
+
 
 Spring Security
 Spring Security is a powerful and highly customizable security framework that is often used in SpringBoot applications to handle authentication and authorization.
@@ -273,6 +324,15 @@ Spring Security using users in DB. We need a few configurations :
 4) A configuration SecurityConfig to integrate everything with Spring Security.
 
 
+
+JWT
+JSON Web Token is a way to securely
+
+
+
+
+
+
 Classpath - List of jars and directories that JVM uses.
 A way to let JVM know that dependencies that it needs are present here.
 
@@ -296,6 +356,15 @@ Eg : java -jar journalApp.jar --server.port=8090
 If same property is passed via CLI and present in yml file, precedence is given for CLI arguments.
 
 So the order is CLI arguments -> application.properties -> application.yml
+
+
+
+
+
+
+
+
+
 
 JUnit
 Testing framework for Java to write tests.
@@ -348,12 +417,22 @@ Mockito
 Mockito.when():Used to specify what should be returned when a specific method on a mock is called.
 assertEquals(): A JUnit assertion that checks if two values are equal. It’s used to verify that the actual output of the method matches the expected output.
 Mockito.verify(): Verifies that a specific method on a mock was called with specified parameters. 
-				  This is useful for ensuring that interactions with the mock happened as expected.
+		  This is useful for ensuring that interactions with the mock happened as expected.
+
+
+
+
+
 
 Profiling
 mvn clean package -D spring.profiles.active=prod
 
 java -jar app.jar --spring.profiles.active=prod
+
+
+
+
+
 
 
 Logging
@@ -362,8 +441,7 @@ SpringBoot supports various logging frameworks, such as Logback, Log4j2 and Java
 
 Logback : A popular logging framework that serves as the default in many SpringBoot applications. It offers flexible configuration and good performance.
 Log4j2 : Another widely used logging framework with features such as asynchronous logging and support for various output formats.
-Java Util Logging(JUL) : The default logging framework included in the Java Standard Edition. While it's less feature-rich than some of the third-party frameworks,
-						 it is straight forward and is part of the Java platform.
+Java Util Logging(JUL) : The default logging framework included in the Java Standard Edition. While it's less feature-rich than some of the third-party frameworks, it is straight forward and is part of the Java platform.
 						 
 Logback						 
 SpringBoot comes with a default logging configuration that uses Logback as the default logging implementation. 
