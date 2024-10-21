@@ -1,0 +1,19 @@
+Heroku
+To login to Heroku from CLI:
+heroku login
+
+To create an application and git repo on heroku:
+heroku create
+
+To push code repo to Heroku:
+git push heroku master
+
+To get application logs:
+heroku logs --tail
+
+To configure an environment variable in heroku:
+heroku config:set <variable-name>=<variable-value>
+Eg: heroku config:set SERVER_PORT=8081
+
+To check configured environment variable:
+heroku config:get <variable-name>
