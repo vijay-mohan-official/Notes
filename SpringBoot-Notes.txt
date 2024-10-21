@@ -355,6 +355,7 @@ HMACSHA256(
 	base64UrlEncode(header) + "." + base64UrlEncode(payload)
 	)
 
+Logout of JWT should be done at client side(UI or APP), since JWT is stateless and is not stored in server storage. Hence, better to remove from UI's local storage. 
 
 
 
