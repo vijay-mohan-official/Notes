@@ -1,0 +1,15 @@
+Elastic stack
+The Elastic Stack is a group of open source products built by Elastic.
+
+The group of products are:
+Elastic Search
+Kibana
+Logstash
+X-pack
+Beats
+
+Elastic Search
+Open source analytics and full text search engine
+It is built in Java
+Easy to use and highly scalable
+Often used to provide search functionality to an application with features like auto completing, correcting typos, handling synonyms
