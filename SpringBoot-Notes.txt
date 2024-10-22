@@ -527,3 +527,50 @@ logging:
 logback.xml
 The <configuration> element is the root element of the logback.xml file.
 All Logback configuration is enclosed within this element.
+
+
+
+
+
+
+
+
+
+
+
+
+Swagger
+Swagger is used for documentation of APIs.
+Open API Specification describes a standardized format for describing APIs comprehensively.
+Swagger is an open-source framework used for designing, building, documenting and consuming Restful APIs.
+It provides a standardized way to describe the structure of an API, making it easier for developers to understand, integrate and consume the API.
+
+Spring Fox
+Spring Fox is a Java library used to Integrate Swagger with SpringBoot applications.
+It automatically generates Swagger documentation from you Spring controllers and models.
+
+springfox-boot-starter: A starter dependency to quickly set up and integrate Springfox into a Spring Boot project.
+
+Springdoc OpenAPI
+Springdoc OpenAPI is an alternative to Springfox.
+It is designed to generate API documentation from SpringBoot applications using the OpenAPI 3 specification, which is the latest iteration of the Swagger specification.
+
+springdoc-openapi-ui: A module that integrates Springboot applications with Swagger UI using the OpenAPI 3 specification.
+
+Default swagger path : http://localhost:8080/swagger-ui/index.html
+
+To change and configure new path :
+springdoc:
+  swagger-ui:
+    path: /docs
+
+Now path becomes :  http://localhost:8080/docs
+
+http://localhost:8080/v3/api-docs
+The /v3/api-docs endpoint provides the JSON representation of API's documentation, which can be used by Swagger UI to generate interactive API documentation.
+
+OpenAPI definition : This is the title of our API documentation. This can be customized.
+
+Springdoc OpenAPI scans our SpringBoot application for REST controllers and generates the corresponding API documentation.
+It automcatically generates API documentation without additional configuration.
+It also scans our application for classes that are used as request bodies or response bodies.
