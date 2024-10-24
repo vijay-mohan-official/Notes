@@ -134,3 +134,67 @@ Can only be called inside the implementation class using the Interface name.
 
 Functional Interface reference can be used to hold lambda expression.
 Using lambda expression we don't need to use any seperate implementation class.
+
+//Functional Interface
+public interface Employee{
+	String getName();
+}
+
+//Seperate Class created for Software Engineer or type Employee
+public class SoftwareEngineer implements Employee{
+	@Override
+	public String getName(){
+		return "Software Engineer";
+	}
+}
+
+//Before Java 8
+public class Main(){
+	public static void main(String args[]){
+		Employee employee = new SoftwareEngineer();
+		System.out.println(employee.getName());
+	}
+}
+
+Using Functional Interfaces and Lambda Expressions in Java 8, we create Software Engineer by,
+public class Main(){
+	public static void main(String args[]){
+		Employee employee = () -> "Software Engineer";
+}
+
+We are writing implementation of abstact method written in Employee interface inside the Lambda expression.(No need to create class Software Engineer)
+
+Threads using Lambda expressions
+We use the Functional Interface Runnable to create threads.
+
+//Implementing thread with Runnable Functional Interface
+public class MyClass implements Runnable{
+	@Override
+	public void run(){
+		for(int i=0; i<10; i++){
+			System.out.println("Hello "+i);
+		}
+	}
+}
+
+//Before Java 8
+public class Main(){
+	public static void main(String args[]){
+		MyClass myClass = new myClass();
+		Thread childThread = new Thread(myClass); //Mentioning implementation class of Functional Interface Runnable
+		childThread.run();
+	}
+}
+
+//From Java 8 onwards
+public class Main(){
+	public static void main(String args[]){
+		Runnable ru = () -> {
+			for(int i=0; i<10; i++){
+				System.out.println("Hello "+i);
+			}
+		};
+		Thread childThread = new Thread(myClass);
+		childThread.run();
+	}
+}
