@@ -62,8 +62,6 @@ Steps to make any function lambda expression,
 3. Remove Method Name
 4. Place arrow
 
-
-
 Characteristics/Properties of Lambda Expressions
 1. If body has just one statement, then we can remove curly braces.
 2. Use type inference
@@ -157,6 +155,10 @@ public class Main(){
 }
 
 Using Functional Interfaces and Lambda Expressions in Java 8, we create Software Engineer by,
+public interface Employee{
+	String getName();
+}
+
 public class Main(){
 	public static void main(String args[]){
 		Employee employee = () -> "Software Engineer";
@@ -235,6 +237,8 @@ public class Main(){
 
 
 Difference between Lambda Expression and Anonymous Inner Class
+Lambda expression is used in case of single abstact method, but we use anonymous inner class, when we have more than one abstract methods
+//Before Java8
 public class Main(){
 	public static void main(String args[]){
 		Employee employee = new SoftwareEngineer();
@@ -257,3 +261,30 @@ public class SoftwareEngineer implements Employee {
 		return "Software Engineer";
 	}
 }	
+
+//After Java 8
+public interface Employee {
+	String getSalary();
+	String getDesignation();
+}
+
+public class Main(){
+	public static void main(String args[]){
+		Employee employee = new Employee(){ //We don't need to implement a new class, instead use anonymous inner-class
+			@Override
+			public String getSalary(){
+				return "20";
+			}
+
+			@Override
+			public String getDesignation(){
+				return "Test Engineer";
+			}
+		};
+	}
+}
+
+
+
+
+Variables and this in lambda expressions
