@@ -196,7 +196,7 @@ public class Main(){
 				System.out.println("Hello "+i);
 			}
 		};
-		Thread childThread = new Thread(myClass);
+		Thread childThread = new Thread(ru);
 		childThread.run();
 	}
 }
