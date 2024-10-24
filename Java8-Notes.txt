@@ -284,16 +284,13 @@ public class Main(){
 	}
 }
 
-
-
-
 Variables in lambda expressions
 public interface Employee {
 	String getSalary();
 }
 
 public class Main{
-	int a = 2; //Instance variable of the class
+	int a = 2; //Instance variable of the Main class
 
 	private void doSomething(){
 		int b = 4;
@@ -301,6 +298,33 @@ public class Main{
 			a = 3;    //This can be changed, no issue
 			b = 5;	  //This will be show an error, because local variables are final inside lambda expressions and cannot be changed
 			return "100";
+		};
+	}
+}
+
+
+
+public interface Employee {
+	String getSalary();
+}
+
+public class Main{
+	private void doSomething(){
+		int y = 20;
+		Employee e = () -> {
+			int x = 10;
+			System.out.println(this.x);     //This will not work and will show error as x is a local variable
+			System.out.println(this.y);	//This will work and no error is shown as we are accessing an instance variable of class Main
+			return "100";
+		};
+
+		Employee employee = new Employee(){
+			int x = 10;
+			@Override
+			public String getSalary(){
+				System.out.println(this.x);   // This is accessible since it is an instance variable of the inner class
+				return "20";
+			}
 		};
 	}
 }
