@@ -287,4 +287,20 @@ public class Main(){
 
 
 
-Variables and this in lambda expressions
+Variables in lambda expressions
+public interface Employee {
+	String getSalary();
+}
+
+public class Main{
+	int a = 2; //Instance variable of the class
+
+	private void doSomething(){
+		int b = 4;
+		Employee e = () -> {
+			a = 3;    //This can be changed, no issue
+			b = 5;	  //This will be show an error, because local variables are final inside lambda expressions and cannot be changed
+			return "100";
+		};
+	}
+}
