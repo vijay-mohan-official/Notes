@@ -319,11 +319,11 @@ public class Main{
 		};
 
 		Employee employee = new Employee(){
-			int x = 10;
+			int z = 10;
 			@Override
 			public String getSalary(){
-				System.out.println(this.x);   // This is accessible since it is an instance variable of the inner class
-				return "20";
+				System.out.println(this.z);   //This is accessible since it is an instance variable of the inner class
+				System.out.println(this.y);   //This is not accessible and will return an error since we are trying to access the instance 					return "20";				variable of another class
 			}
 		};
 	}
