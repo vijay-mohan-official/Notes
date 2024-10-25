@@ -328,3 +328,75 @@ public class Main{
 		};
 	}
 }
+
+Predicates
+Predicate is a functional interface which has an abstract function "test" accepting one argument that returns a boolean value.
+public class Main{
+	public static void main(String args[]){
+		Predicate<Integer> predicate = x -> x > 100000;
+		System.out.println(predicate.test(1203));
+
+		int salary = 100;
+		if(predicate.test(salary)){
+			//Business logic
+		}
+	}
+}
+
+If it was before Java 8,
+public class Main{
+	public static void main(String args[]){
+		boolean flag = fun(1000);
+	}
+
+	//We had to write a seperate function, which is not needed as we can now use predicates
+	private boolean fun(int x){
+		return x > 1000000;
+	}
+}
+
+The purpose of predicate is that it holds a condition which can be used anywhere in code, instead of duplicating the condition multiple times.
+Very useful in streams concept, since filter() function expects argument as predicate. 
+
+//Before Java8 sum of even numbers in a list
+public class Main{
+	public static void main(String args[]){
+		List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+		int sum = 0;
+		for(int number : numbers){
+			sum += number;
+		}
+	}
+}
+
+//From Java8 onwards, sum of even numbers in a list
+public class Main{
+	public static void main(String args[]){
+		List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+		int sum = numbers.stream().filter(n -> n % 2 == 0).mapToInt(n -> n).sum();
+	}
+}
+
+Default and Static methods inside "Predicate" interface
+and(), or(), negate() are the default methods inside Predicate
+isEqual() is the static method inside Predicate
+
+public class Main{
+	public static void main(String args[]){
+		Predicate<String> startsWithLetterV = x -> x.toLowerCase().charAt(0) == 'v';
+		Predicate<String> endsWithLetterL = x -> x.toLowerCase().charAt(x.length() - 1) == 'l';
+
+		Predicate<String> and = startsWithLetterV.and(endsWithLetterL);  //Using default function and() to create a new predicate which is a combination
+		System.out.println(and.test("Vimal")); //true			 //of the previously created two predicates
+
+		Predicate<String> or = startsWithLetterV.or(endsWithLetterL); 
+		System.out.println(and.test("Vimal")); //true	
+
+		System.out.println(startsWithLetterV.negate().test("Vivek")); //false
+
+		Predicate<Object> predicate = Predicate.isEqual("Vimal");
+		System.out.println(predicate.test("Vijay")); //false
+
+	}
+}
+
