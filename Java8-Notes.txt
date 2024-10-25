@@ -511,3 +511,4 @@ public class Main{
 		listConsumer.accept(Arrays.asList(1,2,3,4));
 }
 
+Supplier Interface
