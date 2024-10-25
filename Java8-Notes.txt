@@ -512,3 +512,24 @@ public class Main{
 }
 
 Supplier Interface
+Supplier Interface is a functional interface with one abstract method "get()".
+public class Main{
+	public static void main(String args[]){
+		Supplier<Integer> supplier = () -> 1;
+		System.out.println(supplier.get()); //1
+	}
+}
+
+An example using the four functional interfaces :
+public class Main{
+	public static void main(String args[]){
+		Predicate<Integer> predicate = x -> x % 2 == 0;
+		Function<Integer, Integer> = x -> x * x;
+		Consumer<Integer> = x -> System.out.println(x);
+		Supplier<Integer> = () -> 100;
+
+		if(predicate.test(supplier.get())){
+			consumer.accept(function.apply(supplier.get()));  //10000
+		}
+	}
+}
