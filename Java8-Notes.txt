@@ -533,3 +533,26 @@ public class Main{
 		}
 	}
 }
+
+
+
+
+BiPredicate Interface
+Purpose is same as Predicate Interface, but accepts two arguments.
+public class Main{
+	public static void main(String args[]){
+		BiPredicate<Integer, Integer> biPredicate = (x,y) -> x % 2 == 0 && y % 2 == 0;
+		System.out.println(biPredicate.test(2,4);  //true
+
+		BiPredicate<String, Integer> biPredicate1 = (str,x) -> str.length() == x;
+		System.out.println(biPredicate.test("ABCD",4);	//true
+	}
+}
+
+BiFunction Interface
+Same as Function Interface, but accepts two arguments.
+public class Main{
+	public static void main(String args[]){
+		BiFunction
+	}
+}
