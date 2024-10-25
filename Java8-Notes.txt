@@ -330,7 +330,7 @@ public class Main{
 }
 
 Predicates
-Predicate is a functional interface which has an abstract function "test" accepting one argument that returns a boolean value.
+Predicate is a functional interface which has an abstract function "test()" accepting one argument that returns a boolean value.
 public class Main{
 	public static void main(String args[]){
 		Predicate<Integer> predicate = x -> x > 100000;
@@ -400,3 +400,65 @@ public class Main{
 	}
 }
 
+Function Interface
+Function is a functional interface which has an abstract function "apply()" accepting one argument that returns a value.
+public class Main{
+	public static void main(String args[]){
+		Function<String, Integer> function = x -> x.length();  //Function to return the length of a String
+		System.out.println(function.apply("ABSCHBS")); //7
+
+		Function<String, String> function2 = s -> s.subString(0,3);
+		System.out.println(function2.apply("ABSCHBS")); //ABS
+
+		Function<List<Student>, List<Student>> studentsWithVijAsPrefix = li -> {
+			List<Student> result = new ArrayList<>();
+			for(Student s : li){
+				if(function2.apply(s.getName().equalsIgnoreCase("Vij"))){
+					result.add(s);
+				}
+			}
+			return result;
+		 };
+
+		Student s1 = new Student(1,"Vijay");
+		Student s2 = new Student(2,"Amal");
+		List<Student> students = Array.asList(s1,s2);
+
+		List<Student> filteredStudents = studentsWithVijAsPrefix.apply(students);
+		System.out.println(filteredStudents);
+	}
+
+	private static class Student(){
+		private int id;
+		private String name;
+
+		public Student(int id, String name){
+			this.id = id;
+			this.name = name;
+		}
+
+		public int getId(){
+			return id;
+		}
+
+		public void setId(int id){
+			this.id = id;
+		}
+
+		public String getName(){
+			return name;
+		}
+
+		public void setName(String name){
+			this.name = name;
+		}
+
+		@Override
+		public String toString(){
+			return "Student{" +
+				"id="+id +
+				", name="+name + '\'
+			'}';
+		}
+	}
+}
