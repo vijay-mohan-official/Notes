@@ -639,3 +639,123 @@ public class Test{
 		List<Student> students = names.stream().map(Student::new).collect(Collectore.toList()); 
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+Streams
+Collections	------->	Streams
+To play with collections, we convert collections to streams and then use declarative and functional programming to play with collection elements.
+
+A code to find the sum of even numbers in an array written in imperative approach(Traditional)
+public class Test{
+	public static void main(String args[]){
+		int array[] = {1,2,3,4,5};
+		int sum = 0;
+		for(int i=0; i<array.length; i++){
+			if(array[i] % 2 == 0){
+				sum += array[i];
+			}
+		}
+	}
+}
+
+Why Stream?
+We write the same logic using declarative approach(using streams)
+public class Test{
+	public static void main(String args[]){
+		int array[] = {1,2,3,4,5};
+		int sum = Arrays.stream(array).filter(n -> n % 2 == 0).sum(); //Lesser code and more readable form
+	}
+}
+
+Readability: Streams provide a more readable and expressive way to perform operations on collections. 
+	     The syntax is concise and easy to understand, making it easier for other developers to read and maintain your code.
+
+Flexibility: Streams allow you to perform a variety of operations on collections, such as filtering, mapping and reducing, without having to write multiple loops 	     or methods. This can save time and make your code more flexible.
+
+Parallelism: Streams can be processed in parallel, which can provide a significant performance boost for large collections.
+	     With a for loop, you would have to write your own multi-threaded code to achieve parallelism.
+
+Encapsulation: Streams encourage encapsulation, as you can perform a series of operations on collections without modifying the original data.
+	       This can help prevent bugs and improve code reliability.
+
+Creating Streams
+public class Test{
+	public static void main(String args[]){
+		List<String> list = Arrays.asList("apple","banana","cherry");
+		Stream<String> stream = list.stream();	//This is how we convert a collection(here List) to stream
+
+		String array[] = {"apple","banana","cherry"};
+		Stream<String> stream1 = Arrays.stream(array); //Converting an array to stream
+
+		Stream<Integer> integerStream = Stream.of(1,2,3,4);	//Directly creating a stream
+
+		Stream<Integer> integerStream1 = Stream.iterate(0, n -> n+1).limit(100); 
+		//iterate() expects a seed(starting point of stream) and UnaryOperator(UnaryOperator --> Function --> Funtional Interface --> Lambda Expression)
+
+		Stream<String> stringStream1 = Stream.generate(() -> "hello").limit(5);
+		//generate() expects a Supplier
+	}
+}
+
+Operations on Streams
+filter() - Used to filter and fetch certain values through a stream based on predicate passed to the function
+collect() - Used to fetch the stream obtained after computations and store into a Collection desired
+map() - Expects a function interface and used to fetch the stream values and perform some operation on it and return the value
+distinct() - To remove any duplicate values
+sorted() - To sort the final filtered stream. Expects comparator as argument for custom sorting
+limit() - To limit the first n number of elements to store in collection from the filtered stream
+skip() - To skip the first n number of elements to store in collection from the filtered stream
+
+public class Test{
+	public static void main(String args[]){
+		List<Integer> list = Arrays.asList(1,2,3,4,5,6,7,8,9,0);
+
+		//Using filter() and collect()
+		List<Integer> filteredList = list.stream().filter(x -> x % 2 == 0).collect(Collectore.toList());
+
+		//Using map()
+		Stream<Integer> filteredStream = filteredStream.stream().map(x -> x / 2);
+		//To fetch as List use collect()
+		List<Integer> filteredList2 = filteredStream.stream().map(x -> x / 2).collect(Collectors.toList());
+
+		Combining both the above processes to a single line
+		List<Integer> filteredList3 = list.stream().filter(x -> x % 2 == 0).map(x -> x / 2).collect(Collectors.toList());
+
+		//Removing duplicate values
+		List<Integer> filteredList4 = list.stream().filter(x -> x % 2 == 0).map(x -> x / 2).distinct().collect(Collectors.toList());
+
+		//Sorting the filtered list
+		List<Integer> filteredList5 = list.stream().filter(x -> x % 2 == 0).map(x -> x / 2).distinct().sorted().collect(Collectors.toList());
+
+		//Sorting the list in descending order
+		List<Integer> filteredList6 = list.stream().filter(x -> x % 2 == 0).map(x -> x / 2).distinct().sorted((a,b) -> b-a).collect(Collectors.toList());
+
+		//Limiting first 4 elements
+		List<Integer> filteredList6 = list.stream()
+			.filter(x -> x % 2 == 0)
+			.map(x -> x / 2)
+			.distinct()
+			.sorted((a,b) -> b-a)
+			.limit(4)
+			.collect(Collectors.toList());
+
+		//Skipping first element
+		List<Integer> filteredList6 = list.stream()
+			.filter(x -> x % 2 == 0)
+			.map(x -> x / 2)
+			.distinct()
+			.sorted((a,b) -> b-a)
+			.limit(4)
+			.skip(1)
+			.collect(Collectors.toList());
+	} 
+}
