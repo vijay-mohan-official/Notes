@@ -553,6 +553,53 @@ BiFunction Interface
 Same as Function Interface, but accepts two arguments.
 public class Main{
 	public static void main(String args[]){
-		BiFunction
+		BiFunction<String, String, Integer> biFunction = (x,y) -> x.length() + y.length();
+		System.out.println(biFunction.apply("ABCD","EFGH"));	//8
+	}
+}
+
+BiConsumer Interface
+Same as Consumer interface, but accepts 2 arguments
+public class Main{
+	public static void main(String args[]){
+		BiConsumer<Integer, Integer> biConsumer = (x,y) -> System.out.println(x+y);
+		biConsumer.accept(1,2);	//3
+	}
+}
+
+//BiSupplier doesn't exist, a function will only return one value at all times
+
+Unary Operator and Binary Operator Interface
+Unary Operator Interface extends Function Interface and expects only one argument as input which will also be the return type.
+public class Main{
+	public static void main(String args[]){
+		UnaryOperator<Integer> unaryOperator = x -> x * x;
+		System.out.println(unaryOperator.apply(5));	//25
+	}
+}
+
+Binary Operator extends BiFunction and expects only one argument as input which will also reflect as the return type of the result.
+public class Main{
+	public static void main(String args[]){
+		BinaryOperator<String> biOperator = (str1, str2) -> str1 + str2;
+		System.out.println(biOperator.apply("Hi"," Vijay");	//Hi Vijay
+	}
+}
+
+
+
+
+Method and Constructor References
+Method references allow us to refer to a method without invoking it, making our code cleaner and more readable. They can be used in place of a lambda expression when the lambda expression only calls an existing method.
+
+public class Test{
+	public static void print(String s){
+		System.out.println(s);
+	}
+	
+	public static void main(String args[]){
+		List<String> students = Arrays.asList("Alice","Bob","Charlie");
+		students.forEach(x -> System.out.println(x)); //Using lambda expression we are printing all students in List
+		students.forEach(Test::print);	// :: is called method referencing operator(We are replacing above statememt with a reference to method "print" present in class Test)
 	}
 }
