@@ -589,8 +589,15 @@ public class Main{
 
 
 
+
+
+
+
+
+
 Method and Constructor References
 Method references allow us to refer to a method without invoking it, making our code cleaner and more readable. They can be used in place of a lambda expression when the lambda expression only calls an existing method.
+We use method reference if there is a method already defined, if not we go proceed with Lambda expressions.
 
 public class Test{
 	public static void print(String s){
@@ -599,7 +606,36 @@ public class Test{
 	
 	public static void main(String args[]){
 		List<String> students = Arrays.asList("Alice","Bob","Charlie");
-		students.forEach(x -> System.out.println(x)); //Using lambda expression we are printing all students in List
-		students.forEach(Test::print);	// :: is called method referencing operator(We are replacing above statememt with a reference to method "print" present in class Test)
+		//students.forEach(x -> System.out.println(x)); //Using lambda expression we are printing all students in List
+		
+		// :: is called method referencing operator(We are now printing with a reference to method "print" present in class Test)
+		students.forEach(Test::print);
+	}
+}
+
+Constructor referencing
+public class Student(){
+	private String name;
+
+	public Student(String name){
+		this.name = name;
+	}
+
+	public String getName(){
+		return name;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+}
+
+public class Test{
+	public static void main(String args[]){
+		List<String> names = Arrays.asList("Alice","Bob","Charlie");
+		//List<Student> students = names.stream().map(x -> new Student(x)).collect(Collectore.toList());
+
+		Instead of using Lambda expression, we are using constructor reference to create Student object
+		List<Student> students = names.stream().map(Student::new).collect(Collectore.toList()); 
 	}
 }
