@@ -535,8 +535,6 @@ public class Main{
 }
 
 
-
-
 BiPredicate Interface
 Purpose is same as Predicate Interface, but accepts two arguments.
 public class Main{
@@ -888,5 +886,169 @@ LocalDateTime
 public class Test{
 	public static void main(String args[]){
 		LocalDateTime now = new LocalDateTime();	//2024-10-28T11:13:35.668	'T' is a seperator to differentiate date and time
+
+		//Parsing string to LocalDateTime
+		LocalDateTime myDate = LocalDate.parse("2024-10-28T14:03");
+	}
+}
+
+
+ZonedDateTime
+UTC - Universal Time Coordinated
+public class Test{
+	public static void main(String args[]){
+		ZonedDateTime now = ZonedDateTime.now();	// 2024-10-28T11:13:35.668+05:30[Asia/Calcutta]
+
+		//Fetching Different Zone Ids
+		Set<String> availableZoneIds = ZoneId.getAvailableZoneIds();
+		availableZoneIds.forEach(System.out::println);
+
+		//Custom ZonedDateTime
+		ZonedDateTime customZonedDateTime = ZonedDateTime.of(2024, 12, 21, 14, 12, 36, 30, ZoneId.of("America/New_York"));
+
+		//Fetching current time of different zones
+		ZonedDateTime indiaTime = ZonedDateTime.now(ZoneId.of("Asia/Calcutta"));
+
+		ZonedDateTime newYorkTime = ZonedDateTime.now(ZoneId.of("America/New_York"));
+
+		//Parsing string to ZonedDateTime
+		ZonedDateTime myDate = ZonedDateTime.parse("2024-10-28T14:03:30-04:00[America/New_York]");
+	}
+}
+
+
+
+Instant
+Before Java8, to fetch current timestamp, we used to use :
+System.currentTimeMillis();	// 1730106394 --> Monday, October 28, 2024 2:36:34 PM
+
+This returned a long value. 
+Which if we want to check what time it is, we needed to use an Epoch time converter website.
+The long value returned is the difference between current date and midnight January 1, 1970 UTC.
+
+public class Test{
+	public static void main(String args[]){
+		Instant now = Instant.now();	// 2024-10-28T14:41:35.668Z 	Z --> UTC
+	}
+}
+
+
+
+Duration
+public class Test{
+	public static void main(String args[]){
+		Instant start = Instant.now();
+		Instant end = Instant.now();
+
+		Duration d1 = Duration.between(start, end);	// PT0S		PT ---> Period of Time
+		Duration d2 = Duration.of(1, ChronoUnit.MILLIS);	// PT0.001S
+
+		Instant start1 = Instant.now();
+		for(int i=0; i<100000; i++){
+			sum+=i;
+		}
+		Instant end1 = Instant.now();
+		Duration d3 = Duration.between(start1, end1);	// PT0.004S
+	}
+}
+
+
+
+Period
+public class Test{
+	public static void main(String args[]){
+		LocalDate now = LocalDate.now;
+		LocalDate then = LocalDate.of(1991,2,2);
+
+		Peroid period = Period.between(now, then);	// P-33Y-2M-22D
+	}
+}
+
+
+
+DateTimeFormatter
+public class Test{
+	public static void main(String args[]){
+		String date = "28/10/2024";
+		DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate parsedDate = LocalDate.parse(date, myFormatter);	//2024-10-28
+		
+		LocalDate localDate = LocalDate.now();	// 2024-10-28
+		localDate.format(myFormatter);	// 28/10/2024
+
+		String dateTimeString = "2024-10-28 14:16:51+05:30"; 
+		DateTimeFormatter myFormatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssXXX");	// XXX ---> Offset // z ---> Time Zone(IST)
+		ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeString, myFormatter1);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Optional Class
+Optional classes are very good when handling or avoiding NullPointerExceptions.
+
+public class Test{
+	public static void main(String args[]){
+		String name = getName(1);
+		if(name != null){
+			System.out.println(name.toUpperCase());
+		}
+		//This was how we are doing null check before performing something since we didn't know if getName can return a null value
+	}
+
+	private static String getName(int id){
+		//Logic to get data from DB, code not written
+		return "Ram";
+	}
+}
+
+From Java8 onwards we can use Optional Class,
+public class Test{
+	public static void main(String args[]){
+		Optional<String> name = getName(1);
+		if(name.isPresent()){
+			System.out.println(name.get().toUpperCase());
+		}
+		//isPresent() returns a boolean
+
+		name.ifPresent(System.out::println); // ifPresent() expects a Consumer as argument
+
+		Optional<String> name1 = getNameNull(1);
+		//String nameToBeUsed = name.isPresent() ? name.get() : "Default name";
+		//Above line can be easily replaced in different ways below
+		String nameToBeUsed = name.orElse("Default name");
+
+		String nameToBeUsed1 = name.orElseGet(() -> "Default name");	
+		//orElseGet() expects a supplier as argument and is used if we have to do certain steps of operations in case of null value in Optional Class
+
+		String nameToBeUsed1 = name.orElseThrow(() -> new NoSuchElementException);
+		//orElseThrow() expects a supplier as argument and is used if we want to throw an exception in case of a null value
+
+		//We can also use map() with optional value to perform any operations if needed
+		Optional<String> optional = name1.map(x -> x.toUpperCase());
+	}
+
+	private static Optional<String> getName(int id){
+		String name = "Ram";
+		return Option.of(name);
+
+		//Suppose if name is null, then use ofNullable(name)
+		//String name = null;
+		//return Option.ofNullable(name);
+	}
+
+	private static Optional<String> getNameNull(int id){
+		return Optional.empty();
 	}
 }
