@@ -802,3 +802,91 @@ Purpose: To perform operations concurrently on a collection, which can lead to p
 Usage: Suitable for operations that are independent of each other and can benefit from parallel execution.
 
 Recommended for large datasets only, it can perform slower than normal stream() for small datasets.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Date and Time API
+Why new API and issues with legacy Date and Calender classes?
+1. The Date and Time generated were mutable(change the created object)
+2. The Date and Calender classes were confusing
+3. Limited functionalities when it comes to zones and time differences
+
+New Date and Time Classes
+1. LocalDate - Represents a date without a time zone.
+2. LocalTime - Represents a time without a date or time zone.
+3. LocalDateTime - Represents a date and time without a time zone.
+4. ZonedDateTime - Represents a date and time with a time zone.
+5. Instant - Represents an instantaneous point on the timeline, typically used for machine timestamps.
+6. Period - Represents a period of time between two dates.
+7. Duration - Represents a duration of time between two points in time.
+8. DateTimeFormatter - Formats and parses date and time.
+
+
+LocalDate
+public class Test{
+	public static void main(String args[]){
+		//Fetch current date using system clock and default time zone
+		LocalDate today = LocalDate.now();	//2024-10-28
+
+		//Fetching details from now
+		int datOfMonth = today.getDayOfMonth();	//28
+		Month month = today.getMonth();	//OCTOBER
+		int monthValue = today.getMonthValue();	//10
+		int year = today.getYear();	//2024
+
+		//To create yesterday from today
+		LocalDate yesterday = today.minusDays(1);	//Similarly minusMonths() , minusYears(), minusWeeks() etc are available
+
+		if(today.isAfter(yesterday)){
+			System.out.println("Hi");
+		}
+		
+		//To create a date
+		LocalDate customDate = LocalDate.of(1990,12,10);
+	}
+}
+
+
+LocalTime
+public class Test{
+	public static void main(String args[]){
+		LocalTime now = LocalTime.now();	//	10:36:28.627  Hours-Minutes-Seconds-Nano-Seconds
+
+		//Fetching details
+		now.getHour();
+		now.getMinute();
+		now.getSecond();
+		now.getNano();
+
+		//Custom time creation
+		LocalTime customTime = LocalTime.of(14,30,30);	//14:30:30
+
+		//Parsing time
+		LocalTime parsedTime = LocalTime.parse("15:30:45");	//15:30:45
+
+		//Operations
+		LocalTime beforeOneHour = now.MinusHours(1);	//	09:36:28.627
+
+		if(now.isAfter(beforeOneHour)){
+			System.out.println("Hi");
+		}
+	}
+}
+
+
+LocalDateTime
+public class Test{
+	public static void main(String args[]){
+		LocalDateTime now = new LocalDateTime();	//2024-10-28T11:13:35.668	'T' is a seperator to differentiate date and time
+	}
+}
