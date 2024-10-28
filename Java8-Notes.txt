@@ -714,6 +714,12 @@ distinct() - To remove any duplicate values
 sorted() - To sort the final filtered stream. Expects comparator as argument for custom sorting
 limit() - To limit the first n number of elements to store in collection from the filtered stream
 skip() - To skip the first n number of elements to store in collection from the filtered stream
+peek() - Expects a consumer and is an intermediate operation that allows you to inspect the elements of a stream as they pass through a pipeline
+min() - Expects a comparator and is used to find the minimum element in a stream based on a given comparator(Returns an optional value, hence using get())
+max() - Expects a comparator and is used to find the maximum element in a stream based on a given comparator(Returns an optional value, hence using get())
+count() -  Returns the number of elements in a stream.(Return type is long)
+
+min(), max(), count(), collect() etc are terminal operations
 
 public class Test{
 	public static void main(String args[]){
@@ -737,7 +743,7 @@ public class Test{
 		List<Integer> filteredList5 = list.stream().filter(x -> x % 2 == 0).map(x -> x / 2).distinct().sorted().collect(Collectors.toList());
 
 		//Sorting the list in descending order
-		List<Integer> filteredList6 = list.stream().filter(x -> x % 2 == 0).map(x -> x / 2).distinct().sorted((a,b) -> b-a).collect(Collectors.toList());
+		List<Integer> filteredList6 = list.stream().filter(x -> x % 2 == 0).map(x -> x / 2).distinct().sorted((a,b) ->b-a).collect(Collectors.toList());
 
 		//Limiting first 4 elements
 		List<Integer> filteredList6 = list.stream()
@@ -757,5 +763,42 @@ public class Test{
 			.limit(4)
 			.skip(1)
 			.collect(Collectors.toList());
+
+		//Adding peek(), peek() can be added after every operation you perform on the stream so that you can inspect the output
+		List<Integer> filteredList7 = Streams.iterate(0, x -> x + 1)
+			.limit(101)
+			.skip(1)
+			.filter(x -> x % 2 == 0)
+			.map(x -> x/10)
+			.distinct()
+			.sorted()
+			.peek(x -> System.out.println(x))
+			.collect(Collectors.toList());
+
+		//Using max() to fetch the max value in the stream
+		Integer integer = Streams.iterate(0, x -> x + 1)
+			.limit(101)
+			.map(x -> x / 20)
+			.distinct()
+			.peek(System.out::println)  //Method referencing
+			.max((a,b) -> a-b)
+			.get();
+
+		//Using count() to fetch the no of elements in the stream
+		Long integer = Streams.iterate(0, x -> x + 1)
+			.limit(101)
+			.map(x -> x / 20)
+			.distinct()
+			.count();
 	} 
 }
+
+
+parallelStream()
+Allows you to create a parallel stream. 
+This enables you to process elements in parallel, leveraging multiple CPU cores to improve performance for certain types of operations.
+
+Purpose: To perform operations concurrently on a collection, which can lead to performance improvements, especially for large datasets.
+Usage: Suitable for operations that are independent of each other and can benefit from parallel execution.
+
+Recommended for large datasets only, it can perform slower than normal stream() for small datasets.
