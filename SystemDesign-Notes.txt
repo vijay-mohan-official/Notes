@@ -1,1 +1,11 @@
 System Design
+System design is the process of designing the elements of a system such as architecture, modules and components, the different interfaces of those components and the data that goes through that system.
+
+Types of System Design
+HLD  -  High-Level Design
+Describes the main components that would be developed for the resulting product.
+The system architecture details, database design, services and processes, the relationship between various modules and features.
+
+LLD  -  Low-Level Design
+Describes the design of each element mentioned in the High-Level Design of the system.
+Classes, interfaces, relationships between different classes, and actual logic of the various components.
