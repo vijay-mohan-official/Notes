@@ -10,6 +10,9 @@ LLD  -  Low-Level Design
 Describes the design of each element mentioned in the High-Level Design of the system.
 Classes, interfaces, relationships between different classes, and actual logic of the various components.
 
+
+
+
 Monolithic Architecture
 Architecture - Internal design details for building the applications.
 Web Application with Front-End, Back-End and Data Storage written and deployed together is called monolithic architecture.
@@ -28,3 +31,60 @@ Disadvantages
 In monolithic architecture, every module is combined in a single system, so if there is an error or bug in a single module, it can destroy the complete system.
 Whenever a single module is updated, the whole system needs to be updated to reflect the changes to user. All modules are present in a single system and are connected to one another, so the whole system needs to be updated.
 If there is any change in a single module's programming language or framework, it can affect the entire system. The entire system needs to be changed because every module is interlinked and tightly coupled.
+
+
+
+
+Distributed System
+A distributed system is a collection of multiple individual systems connected through a network that share resources, communicate and coordinate to achieve common goals.
+
+Advantages
+Scalable : Easy to scale horizontally(We can add more machines to improve scalability)
+No Single Point of Failure
+Low Latency
+
+Disadvantages
+Complex as there are multiple servers involved
+Additional management required to handle resources(Load balancing etc)
+Difficult to secure
+Messages may be lost in between nodes
+
+
+
+
+Latency
+Latency = Network delay + Computational delay
+Monolithic doesn't involve network delay and hence is faster than distributed systems
+
+Reducing Latency
+1. Caching : Add a caching layer in b/w user and server
+Caching is the process of storing information for a set period of time on a computer
+
+2. Continuous Delivery Network(CDN) : Used to store static data that doesn't change often
+CDNs are geographically distributed networks of proxy servers and their objective is to serve content to users more quickly.
+
+3. Upgrading : Upgrading of hardware
+
+
+
+
+Throughput
+The volume of work or information flowing through a system.
+
+Throughput is the amount of data transmitted per unit of time.
+It is the process flow rate.
+Throughput is measured in bits per second, i.e, bps.
+
+Throughput will be more in distributed systems.(No limit in resources, load balancer)
+
+Causes of Low Throughput
+Latency
+Protocol Overhead(Handshake needed b/w two servers)
+Congestion(All requests coming at the same time)
+
+Improving Throughput
+CDN
+Caching
+Distributed system
+Load balancer
+Improve resources of system
