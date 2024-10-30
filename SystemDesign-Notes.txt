@@ -156,3 +156,71 @@ d) Video Streaming sites -> Consistency
 e) Ticket Booking System -> Availability
 f) Video chat applications -> Consistency
 g) Bank -> Availability
+
+
+
+
+Lamport Logical Clock
+Lamport's Logical Clock is a mechanism for determining the order of events in a distributed system, where events can occur concurrently and there is no global clock.
+
+How It Works:
+Each process maintains a counter (logical clock) that starts at zero.
+Before an event occurs (like sending a message), the process increments its counter.
+When a process sends a message, it includes its current timestamp.
+Upon receiving a message, the receiving process updates its counter to be greater than its current value and the timestamp in the message.
+
+
+
+
+Scalability
+Scalability refers to the ability of a system, network, or process to handle a growing amount of work, or its potential to accommodate growth.
+
+Vertical Scalability
+Pros:
+Involves adding more resources (CPU, RAM, storage) to an existing machine.
+Easy implementation.
+Less power.(Only one machine is scaled and hence lesses power)
+Management is easy.
+
+Cons:
+Single point of failure.
+There is a limit for upgrading.
+
+Horizontal Scaling
+Involves adding more machines or nodes to a system.
+Typically more complex but can provide greater resilience and capacity.
+
+Pros:
+No Single point of failure.
+
+Cons:
+Management is difficult.
+Power consumption is higher.
+Securing applications is also tougher.
+
+
+
+
+Redundancy
+Redundancy is simply the duplication of nodes or components so that when a node or component fails, the duplicate node is available to service components.
+
+Active Redundancy is considered when each unit is operating/active and responding to the action. Multiple nodes are connected to a load balancer and each unit receives an equal load
+
+Passive Redundancy is considered when one node is active or operational and the other is not operating. During the breakdown of the active node, the passive node maintains availability by becoming the active node.
+
+
+
+
+Replication
+Replication = Redundancy + Synchronization
+
+Active Replication
+If a read-write operation is happening in a DB which is hosted on multiple nodes, read-write will happen in all the nodes and become synchronized.
+
+Passive Replication
+Every read-write -> master
+If master goes down one slave becomes master.
+
+Master-slave replication can be either synchronous or asynchronous. The difference is simply the timing of propagation of changes.
+If the changes are made to the master and slave at the same time, it is synchronous.
+If changes are queued up and written later, it is asynchronous.
