@@ -224,3 +224,30 @@ If master goes down one slave becomes master.
 Master-slave replication can be either synchronous or asynchronous. The difference is simply the timing of propagation of changes.
 If the changes are made to the master and slave at the same time, it is synchronous.
 If changes are queued up and written later, it is asynchronous.
+
+
+
+
+Load Balancers
+Load balancing is the process of efficient distribution of network traffic across all nodes in a distributed system.
+
+Roles of load balancer
+1. The load distribution is equal over every node.
+2. Health check(if the node is not operational, the request is passed to another node that is up and running)
+3. Load balancers ensure high scalability, high throughput and high availability.
+
+When to use it and when not to use it?
+In monolithic or in case of vertically scaled system, we don't need it. But in microservice architecture, we need it.
+
+Challenges of load balancing
+Single Point of Failure:
+During a load balancer malfunctioning, the communication between clients and servers would be broken.
+To solve this issue, we can use redundancy. The system can have an active load balancer and one passive load balancer.
+
+Advantages of using load balancer
+1. Optimization : Load balancers help in resource utlilization and lower response time, thereby optimizing the system in a high traffic environment
+2. Better user experience : Load balancers help in reducing the latency and increasing availability making the user's request go smoothly and error-free.
+3. Prevents Downtime : Load balancers maintain a record of servers that are non-operational and distribute the traffic accordingly, therefore ensuring security and preventing downtime, which also increases profit and productivity.
+4. Flexibility : Load balancers have the flexibility to re-route the traffic in case of breakdown and work on server maintainance to ensure efficiency. This helps in avoiding traffic bottlenecks.
+5. Scalability : When the traffic of a web application increases suddenly, load balancers can use physical and virtual servers to deliver the responses without any disruption.
+6. Redundancy : Load balancing also provides in-build redundancy by re-routing the traffic in case of any failure.
