@@ -88,3 +88,52 @@ Caching
 Distributed system
 Load balancer
 Improve resources of system
+
+
+
+
+Availability
+Fault tolerance is directly proportional to availability.
+Distributed systems have higher availabilty than monolithic architecture.
+
+How to increase availability?
+1. Replication
+Replication includes dependency, but involves the copying of data from one node to another or the synchronization of state between nodes.
+
+2. Distributed systems
+
+3. Redundancy
+Redundancy is the duplication of nodes, in case of some of them are failing.
+
+
+
+
+Consistency
+When more than one client requests the system, for all such requests, it will be called consistent when each client gets the same data. 
+The data should always be consistent, regardless of who is accessing it.
+
+When more than one client requests the system, for all such requests, when different clients get different responses due to some recent update that has not been committed to all systems yet, this reading operation will be called dirty read.
+
+Factors improving consistency
+1. Improving network bandwidth
+2. Stop the read - Stop the read operation, until all servers are updated and synchronized
+3. Replication based on Distance aware strategies - Place servers that require synchronization close to each other
+
+Types of consistency
+1. Strong consistency
+When the system doesn't allow read operation until all the nodes are with replicated data are updated.
+
+2. Eventual Consistency
+User Read Requests are not halted till all the replicas are updated rather the update process is eventual. Some users might recieve old data but eventually all the data is updated to the latest data.
+
+3. Weak Consistency
+No need for synchronization, may or may not happen.
+
+
+
+
+CAP Theorem
+CAP --> Consistency, Availability and Partition Tolerance
+
+For a distributed system, the CAP Theorem states that it is possible to attain only two properties and the third would be always compromised.
+The system requirements should define which two properties should be chosen over the rest.
