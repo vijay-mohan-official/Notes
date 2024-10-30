@@ -137,3 +137,22 @@ CAP --> Consistency, Availability and Partition Tolerance
 
 For a distributed system, the CAP Theorem states that it is possible to attain only two properties and the third would be always compromised.
 The system requirements should define which two properties should be chosen over the rest.
+
+The system designer can select Consistency and Partition Tolerance but the Availability would be compromised then.
+  Should avoid dirty read scenario, hence availability will be compromised for some time until synchronized.
+
+The system designer can select Partition Tolerance and Availability but the Consistency would be compromised then.
+  In social media, if a user posts now and immediately if its not reflected instantly in your feed it is not as issue.
+
+The system designer can select Availability and Consistency but the Partition Tolerance would be compromised then.
+  System will be centralized, one node, monolithic architecture.
+
+Partition Tolerance cannot be compromised and hence when designing systems it comes down to either compromising Consistency or Availability.
+Eg : What can be compromised in below systems?
+a) Blogs website -> Consistency
+b) Multiplayer online games -> Consistency
+c) Stock trading platforms -> Availability
+d) Video Streaming sites -> Consistency
+e) Ticket Booking System -> Availability
+f) Video chat applications -> Consistency
+g) Bank -> Availability
