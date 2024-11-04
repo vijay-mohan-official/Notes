@@ -251,3 +251,109 @@ Advantages of using load balancer
 4. Flexibility : Load balancers have the flexibility to re-route the traffic in case of breakdown and work on server maintainance to ensure efficiency. This helps in avoiding traffic bottlenecks.
 5. Scalability : When the traffic of a web application increases suddenly, load balancers can use physical and virtual servers to deliver the responses without any disruption.
 6. Redundancy : Load balancing also provides in-build redundancy by re-routing the traffic in case of any failure.
+
+Load Balancing Algorithms
+1. Round Robin (Static) : Rotation fashion
+2. Weighted Round Robin (Static) : It is similar to Round Robin when the servers are of different capacities.(some node can have better resources, others might not have)  
+3. IP Hash Algorithm (Static) : The servers have almost equal capacity, and the hash function(input is source IP) is used for random or unbiased distribution of requests to the nodes.
+4. Source IP Hash (Static) : Source IP Hash combines the server and client's source and destination IP addresses  to produce a hash key. The key can be used to determine the request distribution.
+5. Least Connection Algorithm (Dynamic): Client requests are distributed to the application server with the least number of active connections at the time the client request is recieved.
+6. Least Response Time (Dynamic) : The request is distributed based on the server which has the least response time.
+
+
+
+
+Caching
+Caching is a technique used to temporarily store frequently accessed data in a high-speed storage layer (such as memory) to improve retrieval times and reduce the load on primary data sources.
+
+Types of Caching
+1. In-memory/Local cache - Cache content locally in the server. Eg: MemCache
+2. Distributed/Extrenal Cache Eg : Redis
+
+When to use?
+1. When the app is read intensive
+2. When the app has lot of static content
+
+Content Delivery Network(CDN)
+CDNs are geographically distributed networks of proxy servers and their objective is to serve content to users more quickly. Mostly used to store static contents.
+
+Cache Eviction Strategies
+Cache Miss : API tries to fetch data from Cache, but not available.
+
+1. Least Recently Used(LRU) : Remove the leastly used data stored in cache.
+2. Most Recently Used(MRU) : Remove the most recently used data stored in cache.
+3. Least Frequently Used(LFU) : Remove the leastly accessed data stored in cache.
+4. First In First Out(FIFO) : If there is a limit set in cache and data has reached the limit, remove the first cached data when a new data comes.
+5. Last In First Out(LIFO) : If there is a limit set in cache and data has reached the limit, remove the last cached data when a new data comes.
+6. Random Replacement(RR) : Randomly evict data from cache.
+
+
+
+
+File Based Storage System
+A file based storage system is a database management system where data is stored in the form of files.
+
+Challenges of File Based Storage System
+1. Data Redundancy : Update anomaly, delete anomaly leading to data inconsistency
+2. Poor Security : Same data are present in the system which causes a possibility of data breaches by unauthorized users.
+3. Slow Speed : Speed is very slow and data retrieval is not very efficient.
+
+To overcome these challenges we use relational database management systems.(RDBMS)
+
+
+
+
+Relational Database Management Systems(RDBMS)
+Definiton of RDBMS
+Software - That performs data operations on relational database.
+Operations - Store, manage, query and retrieve data.
+Tables - Data is represented in the form of tables.
+Foreign Keys - The relationship between the two tables is represented by foreign keys.
+
+Advantages
+No data redundancy and inconsistency.
+Data Concurrency : A locking system is provided by RDBMS to prevent abnormalities from occuring.
+Data Searching : Built-in searching capabilities(No need of a seperate programme as in FS(File Based Storage System))
+Data Integrity : Eg: To maintain data integrity, numeric columns won't have alphabet data.(There is no process in the File Based Storage System to check these constraints automatically)
+
+Problems
+Rigid Schema : No flexibility and we should follow the structure that is defined.
+High Cost
+Scalability Issues : Horizontal scaling/ sharding is very difficult.
+
+
+
+
+NoSQL
+NoSQL stands for "non-SQL" database or we can say that it is a non-relational database.
+
+NoSQL is the umbrella term comprising of four different types of databases.
+1. Key value DB
+Generally used for caching. 
+Eg: Redis
+
+2. Document DB
+Brings best of both RDBMS and NoSQL.
+It combines the relationship concept from RDBMS and dynamic schema and horizontal scaling from NoSQL databases.
+Eg: MongoDB
+
+3. Columnar DB
+The columns are stored together instead of rows.
+Because of that, the aggregations in such databases is rapid. It is widely used for Data Analysis.
+Used when we query on a subset of your data's columns.
+Because columnar DB just needs to read these specific columns, it conducts such queries quickly(while row-based DB would have to read the entire data)
+Eg : Cassandra
+
+4. Graph DB
+Graph database represents and stores entities and relationships in the form of graph data structure. It is mainly used for social networks.
+Eg: Neo4j
+
+DB Selection based on app requirement :
+Google Maps : Graph DB
+LinkedIn : Graph DB
+Shopping Website Cart Page : Key Value DB
+Score Card : Key Value DB
+Machine Learning and Data Analysis : Columnar DB
+Payments : Should be consistent, hence should not use NoSQL, always use RDBMS.
+
+Polyglot Persistence
