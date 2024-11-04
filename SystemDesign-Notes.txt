@@ -357,3 +357,99 @@ Machine Learning and Data Analysis : Columnar DB
 Payments : Should be consistent, hence should not use NoSQL, always use RDBMS.
 
 Polyglot Persistence
+If an application's needs cannot be satisfied by a single type of DB, we use multiple DBs. This is called polyglot persistence.
+
+Eg:                      E-Commerce Platform
+                                  |
+-------------------------------------------------------------------------
+|                          |                         |                  |
+Shopping Cart            Completed               Inventory         Customer Social Graph
+    &                      Order                     &                  |
+Session Data               |                     Item Price           Graph Store 
+    |                    Document Store              |
+Key Value Store                                     RDMS
+                                                  (LegacyDB)
+
+Normalization and Denormalization
+Putting data into multiple tables to avoid redundancy is called normalization.
+Eg : For Student and Department Relation, we create a table called department for department details and add the dept_id in student table to avoid redundant department data in Student table.
+
+Denormalization combines the data and organizes it in a single table.
+It is the process of adding redundant data to the normalized relational database to optimize its performance.
+
+Benefits of Denormalization
+1. Faster read and write operations.
+2. Management convenience.(Can avoid joins)
+3. High data availability.
+4. Reduces the number of network calls to fetch data from multiple places.
+
+Challenges of Denormalization
+1. Redundant data - Wastage of memory.
+2. It increases the complexity.
+3. Data inconsistency.
+4. It will slow read write operations since we will need to write multiple places due to redundancy.
+
+Indexing
+Indexing creates a lookup table with the column and the pointer to the memory location of the row, containing this column.
+When we create an index for a column in a table, it stores in a seperate memory location the sorted column and pointer to the table row.
+
+B-Trees data structure is used to store the indexing as it is a multilevel format of tree-based indexing, which has balanced binary search tress.
+Before indexing searching queries had a time complexity of O(n), after indexing, it becomes O(log n).
+
+Indexing shouldn't be added for all tables, it should be added for tables which are read-intensive.
+Also, if a table is write-intensive in nature, we shouldn't use indexing.(For every insertion, at the seperate memory location where indexing table is present we need to do an insertion and perform sorting)
+
+
+
+
+Synchronous communication(Blocking call)
+We block our time and wait for some process to be completed to perform further tasks.
+A client sends a request to the server and will wait until the response is received to perform any other request.
+Used to achive consistency and during transactions.
+
+Industrial Use Cases :
+1. Stock Market
+2. Bank Payments
+3. Ticket Booking
+4. Real Time Decision Making
+
+Asynchronous Communication(Non Blocking Call)
+We don't need to block our time and can perform other operations.
+No need to wait for the response from the server.
+
+Scenarios :
+Adding an item to Amazon Cart - Synchronous Communication - Application waits for this response before allowing the user to add the project into the cart.
+Proceeding with payment - Synchronous Communication - Application waits till the confirmation of payment has been successfully received from the bank. 
+Sending order placed notification - Asynchronous Communication - It can take some time for the notification to arrive, but in the meantime, a user can do anything on the application without waiting for the notification.
+
+Where is it necessary? (Asynchronous Communication)
+1. Computation takes a lot of time
+2. Scalability of application
+3. Avoid cascading failure
+
+Message Based Communication
+Client sends request in the form of a message.
+Receives response in the form of a message.
+It is async, so client is not required to halt or wait for the process.
+
+It has a producer(produces message), consumer(consumes message) and agent(medium/channel through which message is passed).
+Agent is generally a queue which follows FIFO principle.
+Eg : Kafka, RabbitMQ
+
+P2P Model(Peer to Peer)
+Two parties are involved.
+Eg: When sending a mail to another person, it takes some time to receive the mail as the communication is async.
+
+Publish Subscribe Model
+Multiple parties are involved.
+1 producer but multiple consumers.
+Eg: Subsciption to newsletters
+
+
+
+
+Web Server
+Tools or programs that help keep the web application always up and running.
+It can refer to hardware or software, or both of them working together.
+
+On the hardware side, a web server is a computer that stores web server software and a website's component files(for example, HTML documents, images, CSS stylesheets and JavaScript files). A web server connects to the Internet and supports physical data interchange with other devices connected on web.
