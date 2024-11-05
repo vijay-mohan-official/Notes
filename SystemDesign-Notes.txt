@@ -452,4 +452,60 @@ Web Server
 Tools or programs that help keep the web application always up and running.
 It can refer to hardware or software, or both of them working together.
 
-On the hardware side, a web server is a computer that stores web server software and a website's component files(for example, HTML documents, images, CSS stylesheets and JavaScript files). A web server connects to the Internet and supports physical data interchange with other devices connected on web.
+On the hardware side, a web server is a computer that stores web server software and a website's component files(for example, HTML documents, images, CSS stylesheets and JavaScript files). 
+A web server connects to the Internet and supports physical data interchange with other devices connected on web.
+
+On the software side, a web server includes several parts that control how web users access hosted files.
+At a minimum, this is an HTTP server.
+An HTTP server is a software that understands URLs(web addresses) and HTTP(the protocol your browser uses to view webpages).
+An HTTP server can be accessed through the domain names of the website it stores, and it delivers the content of these hosted websites to the end user's device.
+
+At the most basic level, whenever a browser needs a file that is hosted on a web server, the browser requests the file via HTTP.
+When the request reaches the correct (hardware) web server, the (software) HTTP server accepts the request, finds the requested document, and sends it back to the browser, also through HTTP.(If the server doesn't find the requested document, it returns a 404 response instead)
+
+
+
+
+Communication Protocols
+The rules, syntax, semantics and timing of communication and possible error recovery methods.
+These protocols can be implemented using hardware, software or a combination of both.
+
+
+
+
+Models
+1. Push
+The client opens the connection with the server and keeps it always active.
+The server pushes new events to the client.
+This method reduces the server load.
+
+2. Pull/Polling
+Client request, server responds.
+What if client sends 100 requests but get response to just 5 request, that's where Long Polling comes into picture.   
+
+3. Long Polling
+Client requests, server keeps it open until it gives response.
+
+Disadvantages:
+Ordering issue
+Server will be always busy.(To avoid this we use push model)
+
+4. Socket
+Used when we need continuous frequent connections.
+A socket is an endpoint of a two-way connection link between two servers/nodes over a network.(Two way connection channel)
+Eg: Whatsapp
+
+5. Server sent events
+Client subscribes to the server "stream", and the server will send a message ("stream of events") to the client until the server or client closes the stream.
+One-way connection.
+Long-Lived connection.
+Eg: Cricbuzz
+
+Push API allows the server to send a notification to a client even when your site is not open, because it relies on service workers.
+SSE(or Websockets) work as longer as the user is using your site.
+
+
+
+
+Web Application
+Application that runs on the internet.
