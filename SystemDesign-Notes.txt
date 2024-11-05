@@ -509,3 +509,118 @@ SSE(or Websockets) work as longer as the user is using your site.
 
 Web Application
 Application that runs on the internet.
+
+Client: 
+Who requests 
+System that initiates the communication over a network. 
+Eg: MobileApps, Web based consoles, laptops etc
+A web server can also act as a client when requesting information.
+
+Server: 
+Who provides response 
+System that receives the request over the network.
+
+What is required for communication to happen between client and server?
+1. Language independent
+2. Fast
+3. Enable communication over the network
+4. Light weighted
+
+REST(REpresentational State Transfer)
+A technique/style/standard to provide the above 4 requirements.
+To use the standard, we expect the server that it should expose REST API.
+
+The request to the REST API can be of 4 types:
+POST -> CREATE
+GET -> READ
+PUT -> UPDATE
+DELETE -> DELETE
+
+REST API = HTTP VERB + URI
+
+SOA(Service Oriented Architecture)
+Service Oriented Architecture is a style of architecture that promotes loose coupling and granular applications to make the components of the software reusable.
+
+Advantages:
+1. Selective scaling - If app has 1000s of APIs but only 1 API is used frequently, we cannot scale if it is a monolith as it would be wastage of resource.
+2. Different Tech Stacks - Communication is using jsons even though apps are build using different tech stacks.
+3. Loose Coupling - App is modularized and deployed independently.
+4. Agile - Development can be done by different teams.
+
+Disadvantages:
+1. Higher latency - Process to process network calls increases latency.
+2. Complex to secure - Different components on different machines, will be complex to provide security.
+3. Cascading failures - If a service fails, there are chances for other dependent services to fail.
+4. Complex understanding - Complex since different technologies are involved.
+
+Microservices Architecture
+Microservices Architecture is an evolved version of SOA that promotes software components to be loosely coupled.
+It is the most granulated type of architecture design and every service is completely independent of the other.
+
+In SOA if there are two dependent services, we make 5 copies of each and deploy on 5 machines.
+But in microservices, we deploy all services serperately in 10 machines to avoid unwanted dependency.
+
+SOA                                                                       Microservices
+Services can share storage                                                Each microservice has seperate and independent data storage
+Less scalable architecture                                                Highly scalable architecture
+Deployment is time-consuming                                              Deployment is easy and less time-consuming
+Focused on maximizing application service reusability                     More focused on decoupling
+
+Tier Architecture
+A web application can be designed according to the n-tier architecture where tiers are different layers of architecture.
+A tier is a logical seperation between different components of the application.
+Tier architecture helps make modifications and updation of different components easy.
+It helps in assigning dedicated tasks and roles to each component.
+
+Eg :
+1-tier ==> Frontend, backend and DB in same machine
+2-tier ==> Frontend in a machine, backend and DB in same machine
+3-tier ==> Frontend, backend and DB all are in different machines.
+
+
+
+
+Authentication vs Authorization
+Authentication ==> Who are you? (Login to a DB with IP and credentials)
+Authorization ==> What can you do? (Permission to access DB might be read-only, write-only etc)
+
+Basic Authentication
+Client will register to an application with a username and password.
+Now with every request, client will share this username and password to fetch the response.
+This is the most basic version of authentication.
+The main disadvantage is that we are passing credentials in plain text for every request.
+
+Token based Authentication
+Client will register to an application with a username and password.
+Now when client logins to app with credentials, app will provide a token.
+Now with every request, the token is sent to the app.
+Token will expire after a specified time.
+
+OAuth Authentication
+There are so many applications available and it is difficult to remember all their credentials.
+Also when a new app is launched, and for registering a long form is placed, user won't be in the mood to fill all the details.
+User just wants to sign up quickly with the click of a single button.
+That's where we use OAuth where user uses a third party applicatin to authenticate and create a token for accessing the new application without any credentials.
+
+
+
+
+Proxies
+A proxy server is a hardware or a piece of software that is placed between a client and an application to provide intermediary services in the communication.
+Proxy server provides a gateway between the user and the Internet.
+
+Forward Proxy
+A forward proxy server is placed in between a client and server.
+The client request hits the proxy server first and then reaches the application.
+Forward proxy hides the identity of the client from the server.
+Server doesn't know the client.
+
+Reverse Proxy
+Forward proxy hides the identity of the client, but reverse proxy hides the identity of the server.
+
+When to use reverse proxy?
+1. When I don't want to expose the server.
+2. To make user feel there is only one server.
+3. Provide load balancing for the server.
+4. Allow administrators to swap the backend servers without disturbing the traffic.
+5. Filter out some requests.
