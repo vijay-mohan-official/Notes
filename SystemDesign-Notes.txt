@@ -624,3 +624,23 @@ When to use reverse proxy?
 3. Provide load balancing for the server.
 4. Allow administrators to swap the backend servers without disturbing the traffic.
 5. Filter out some requests.
+
+
+
+
+URL Shortener System Design
+What to discuss?
+1. Features(Length of URL, domain)
+2. Estimates(Memory, CPU Requirements)
+3. Design goal(CAP)
+4. HLD
+5. Scaling
+
+Functional and Non Functional Requirements
+Functional:                                                                     Non-Functional:
+1. Shorten                                                                      1. High availability
+2. Redirection                                                                  2. Low latency
+3. Expiry                                                                       3. URLs should not be predictable
+
+Estimating the system capacity
+RAM, Storage etc
