@@ -809,3 +809,21 @@ Metadata Storage Layer
 4. Workspace folders
 5. Versions
 6. Hashes
+Metadata storage level should be highly consistent. Relational DBs are used.(MySQL)
+
+Synchronizer
+Synchronizer synchronizes data at metadata layer and storage layer.
+If a client makes a change to a file, the synchronizer will update the changes so that these changes reflect in other clients also.
+
+Design
+              |------------> Storage layer(Distributed storage) -------------------|
+Client -------|                                                                    |                 
+              |                                                             Messaging queue -------|          
+              |------------> Metadata storage layer -------------------------------|               |Listening to this queue                    
+                                                                                                   |
+                                                                                                   |
+                                                                                              Synchronizer
+                                   Update                                                          |
+                         Client <------------|                                                     |
+                                   Update    |                                                     |
+                         Client <------------|------------------------------------------------ Messaging Queue
