@@ -754,3 +754,58 @@ User -->  Load Balancer --|---  Service 2
                           |                   ----->      Mongo  <------>  Mongo
                           |---  Service 3     <-----       DB1   <------>   DB2
                                                           (Consistent hash partitioning and read write replicas)
+
+
+
+
+Dropbox/Google Drive System Design
+Functional and Non-Functional Requirement
+Functional                                    Non-Functional
+1. Upload                                     1. Scalable
+2. Download                                   2. Highly available
+3. Share                                      3. Low Latency
+                                              4. Optimize data transfer by minimizing bandwidth
+                                              5. ACID(Atomicity, Consistency, Isolation, Durability)
+
+Estimating the system capacity
+1 billion users
+Average user stores 20GB
+==> Total space = 20 Billion GB(20 Exabyte)
+
+HLD
+              |------------> Storage layer(Distributed storage) <----------------------|
+              |                                                                        |
+              |                                                                        |
+Client -------|------------> Metadata storage layer                                    |
+                                  / \                                                  |    
+                                   |                                                   |
+                             Synchronizer ---------------------------------------------|
+
+When we upload a file, we are uploading in a folder which will reflect in the storage layer.
+Storage layer will be a distributed system(Amazon S3, HDFS(Hadoop Distributed File System), Google File System)
+The files uploaded will have some metadata, which will be stored in Metadata storage layer.
+Synchronizer will synchronise changes made in a file in both metadata storage layer and storage layer across all devices and users.
+
+Client:
+1. Upload the file
+2. Download the file
+3. Detect any changes
+4. Break the file into smaller changes thereby optimizing the file transfer.(Now only file changes has to be transferred instead of whole file)
+
+Client can be divided into 4 parts :
+1. Chunker - Calculate hash of each chunk and upload to x
+2. Watcher - Notifies Chunker and Indexer about changes
+3. InternalDB - Stores hashes, URL and metadata
+4. Indexer - Takes hash and URL of chunks from chunker and save to InternalDB
+
+Storage Layer:
+1. Highly distributed(HDFS, GFS)
+2. Add caching
+
+Metadata Storage Layer
+1. Permissions
+2. Devices List
+3. Info of chunks(chunk_id, chunk_order, etc)
+4. Workspace folders
+5. Versions
+6. Hashes
