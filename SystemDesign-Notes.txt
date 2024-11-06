@@ -827,3 +827,7 @@ Client -------|                                                                 
                          Client <------------|                                                     |
                                    Update    |                                                     |
                          Client <------------|------------------------------------------------ Messaging Queue
+
+
+Changes made by the client is the storage layer and metadata layer is sent to a messaging queue.
+This communication is asynchronous and the changes will reflect in other clients when they are online.
