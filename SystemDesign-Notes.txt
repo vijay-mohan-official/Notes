@@ -628,7 +628,7 @@ When to use reverse proxy?
 
 
 
-URL Shortener System Design
+URL Shortener System Design(TinyURL, Bitly)
 What to discuss?
 1. Features(Length of URL, domain)
 2. Estimates(Memory, CPU Requirements)
@@ -636,7 +636,7 @@ What to discuss?
 4. HLD
 5. Scaling
 
-Functional and Non Functional Requirements
+Functional and Non-Functional Requirements
 Functional:                                                                     Non-Functional:
 1. Shorten                                                                      1. High availability
 2. Redirection                                                                  2. Low latency
@@ -644,3 +644,113 @@ Functional:                                                                     
 
 Estimating the system capacity
 RAM, Storage etc
+
+Read heavy or Write heavy
+URL Shortener will be read heavy in nature
+
+Requirement from interviewer
+100:1 Ratio of read and write calls
+
+Every month -> 1 million new URLs
+Every month -> 100 million redirections
+
+Query Per Second will be :
+QPS = 100,000,000/30*24*3600 = 50 qps
+
+Expiry can be set as 10 years
+==> Total URLs in 10 years = 1,000,000 * 12 * 10
+
+Consider each URL size as 500 bytes
+==> Total size in bytes = 1,000,000 * 12 * 10 * 500 --> approximately 60GB(Main memory)
+
+No. of queries per day = 50 * 24 * 3600 --> approximately 5 million qpd
+
+We'll use caching and use 1 day time to live(TTL) for the data.
+
+Assume lets cache 25% of 5 million queries in cache ==> approximately 1.25 million queries
+Hence, 1.25 million * 500 bytes = 1GB(Secondary memory)
+
+Design goal
+1. Read intensive
+2. Highly available
+3. Low latency
+4. Security(Not everyone can shorten URL)
+
+HLD of URL Shortner
+APIs
+2 main APIs are needed. One to shorten and another to delete URL
+
+String shortenUrl(String originalUrl, long userId, String apiKey, Date expiry);
+Boolean deleteUrl(String apiKey, String originalUrl, String shortUrl);
+//Signup, Login, Logout
+//Redirection
+
+Database
+Let's use MongoDB since we don't need relational databases. DB should be easily scalable and available.
+
+Create two collections,
+1. URL
+    |
+    -----------------------------------------------------------------------------
+    |                  |                  |                  |                  |
+original_url       shorten_url        user_id            expiry_date         created_at
+
+2. User
+    |
+    -----------------------------------------------------------------------------
+    |                   |                  |                  |                 |
+  user_id              name              email             api_key           created_at
+
+Algorithm
+Main requirement is to convert long URL to short URL.
+Also we need to avoid collisions.
+
+Lets try to use MD5 algorithm to shorten the URL.
+We provide the long URL and MD5 will process and provide a short unique hash value of size 128 bits.
+The MD5 (Message Digest Algorithm 5) hash produces a fixed-size output of 128 bits, which is typically represented as a 32-character hexadecimal string. Each hexadecimal character represents 4 bits, so 32 characters × 4 bits = 128 bits.
+But we don't need 32 characters long value, we just need the first 6 digits of the hashed value.
+When fetching just the first 6 characters, there are chances of 2 URLs to have the same 6 characters.(Collision)
+Hence cannot use MD5.
+
+Characters that can be available in shortened URL : a-z, A-Z, 0-9 ==> 62 characters
+==> 62^n unique combinations are possible(n is the number of characters permitted in shortened URL)
+
+Therefore, no of unique URLs that can be generated should be greater than no of URLs that can be stored
+62^n > 1,000,000 * 12 * 10
+==> n = log62(1,000,000 * 12 * 10)
+==> n = 4.5
+Take the ceiling value
+==> n = 5
+
+To satisfy the interviewers requirement to handle 1 million new URLs, we can use n=5. This is sufficient.
+
+Let's take n = 7
+==> 62^7 = 3.5 trillion
+
+Since we can't use MD5, lets use Base 62 algorithm
+Number ---> Base 62 ---> AZaz12..  
+
+Base 62 expects a number as input and then generates a combination of digits A-Z, a-z, 0-9
+When we fetch a URL a unique number is generated which will be passed to Base62 and we generate a unique value of length 7.
+We need to confirm that the generated random unique number shouldn't be present in DB. If present, generate another random number.
+
+In MongoDB, there are no constaints, hence it is difficult to check unique number condition in DB.
+
+There comes Redis, where we can store a counter, which can be incremented when each new URL comes, but it results in single point of failure, i.e, if redis fails, whole system will fail. Even if we replicate Redis also we need to be consistent, which is difficult. So this approach use of Redis is also not possible. 
+
+Let's use two Redis(suppose there are 2 URL shortener services), each storing a counter within a range specified. This way we can acheive consistency and avoid single point of failure. But the problem is if we have to add a new Redis, we need to manage the ranges specified in the two Redises and ensure that there is no overlap of ranges.
+
+There comes Apache ZooKeeper, where we can specify the range for each service to use.
+
+Design
+                                 Apache    <--->  ZooKeeper                 
+                                ZooKeeper          Replica 
+                                 / \   |
+                                  |    |
+                                  |   \ /
+                          |---  Service 1    ---->   Redis
+                          |                  <----   (LRU Cache Eviction)
+User -->  Load Balancer --|---  Service 2
+                          |                   ----->      Mongo  <------>  Mongo
+                          |---  Service 3     <-----       DB1   <------>   DB2
+                                                          (Consistent hash partitioning and read write replicas)
