@@ -87,3 +87,35 @@ This will speed up the search time.
 .equal()(Content Comparison) checks if two objects have the same value.
 
 Eg : Two strings objects with the same content will be true for .equal(), but false for ==
+
+
+-> String interning and how it influence comparisons
+String interning is a method where Java stores only one copy of each distinct string value in a memory pool.
+This process makes comparison faster and is memory efficient.
+== can be used to compare intern strings directly and check if they are the same object.
+
+
+-> Why might you choose to use == over .equal() and vice versa?
+When comparing strings in Java from a performance stand-up perspective, we use == to compare strings.
+We compare string interns using == as it is faster for the same memory reference and we can use .equals() for accurate content comparison between any two string, especially when they are non interns.
+
+
+-> Difference between String and String Buffer.
+String in Java is immutable, i.e, once created, cannot be changed.
+
+StringBuffer is mutable, i.e, it allows us to modify the string.
+It represents without creating a new object each time.
+
+
+-> StringBuffer thread safety and how its thread safety compare to String and StringBuilder.
+StringBuffer is thread safe because all of its methods are synchronized, i.e, only one thread can access it at a time.
+
+String is inherently thread safe as it is immutable.
+
+StringBuilder is not thread safe but foster in single threaded environments
+
+
+-> How String and StringBuffer handle memory differently?
+String creates a new object each time when we modify by utilizing more memory with each change.
+
+StringBuffer modifies the existing string directly in its buffer making it more efficient when altering strings repeatedly.
