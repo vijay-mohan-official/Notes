@@ -49,8 +49,19 @@ In the above algorithm, the most dependent term is cn^3, if n = 1000,
 cn^3 = 1000000000c
 ==> we can neglect other terms dn^2, en, f
 
-Hence we can say that the order of the algorithm is n^3, and therefore the degree of the given polynomial f(n) is 3.
+Hence we can say that the order of growth of the algorithm is n^3, and therefore the degree of the given polynomial f(n) is 3.
 
 Theta Notation(θ) is the actual order of the algorithm ==> [θ(n^3)]
 Big O Notation(O) is greater than or equal to the order of the algorithm ==> [O(n^3) | O(n^4) | O(n^1000)] 
-Omega Notation(Ω) is less than or equal to the order of the algorithm ==> [Ω(n^3) | Ω(n^2) | Ω(n^1)  ]
+Omega Notation(Ω) is less than or equal to the order of the algorithm ==> [Ω(n^3) | Ω(n^2) | Ω(n^1)]
+
+The most important of these 3 is the Big O notation because it tells us the upper bound of the algorithm or the worst case.
+The actual time of the algorithm will be always less that this.
+
+
+
+
+Order of growth
+Constant order < log(log n) < log n < n^-1/2 < n < n log n < n^2 < n^3 <  ........ < 2^n < n^n
+Constant order ==> (int n = 2 * 3, where n has no dependency and is equal to 6)
+
