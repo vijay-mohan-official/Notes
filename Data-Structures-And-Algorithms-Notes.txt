@@ -1,1 +1,56 @@
+Time & Space Complexity
+Suppose you have a problem 'P' and there are three algorithms, A1,A2,A3 to solve P. So how to decide which algorithm to choose? 
+That's where time and space complexity comes.
 
+An algorithm is a technique used to solve a given problem.
+
+Time complexity refers to the time taken by an algorithm.
+Space complexity refers to the space utilized by an algorithm.
+
+We choose an algorithm which takes lesser time and space complexities.
+
+Types of cases
+Given below is an algorithm for linear search.
+linearSearch(arr, n) {
+  for(i=0; i< arr.length; i++){
+    if(arr[i] == n){
+      return true;
+    }
+  }
+  return false;
+}
+
+Each algorithm has three cases :
+1) Best
+2) Worst
+3) Average
+
+Suppose we have an array [3,2,1,9,7]
+When using linear search, best case in this array to search for 3, worst for 7 and average case for 1.
+
+The worst case is the most important case as it is the most time consuming one.
+In case of developing an API, we should always mention the worst case to the client, never the best case. Best case time < Worst case time.
+
+
+
+
+Asymptotic Notation
+Asymptotic notation is a way of denoting time complexity of algorithms.
+
+There are 3 types of asymptotic notations:
+1) Theta Notation(θ)
+2) Big O Notation(O)
+3) Omega Notation(Ω)
+
+Suppose I have an algorithm,
+f(n) = cn^3 + dn^2 + en + f
+
+In the above algorithm, the most dependent term is cn^3, if n = 1000,
+cn^3 = 1000000000c
+==> we can neglect other terms dn^2, en, f
+
+Hence we can say that the order of the algorithm is n^3, and therefore the degree of the given polynomial f(n) is 3.
+
+Theta Notation(θ) is the actual order of the algorithm ==> [θ(n^3)]
+Big O Notation(O) is greater than or equal to the order of the algorithm ==> [O(n^3) | O(n^4) | O(n^1000)] 
+Omega Notation(Ω) is less than or equal to the order of the algorithm ==> [Ω(n^3) | Ω(n^2) | Ω(n^1)  ]
