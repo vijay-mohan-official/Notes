@@ -153,15 +153,9 @@ When a question for pattern comes, we need to remember 3 things:
 3) What to print
 
 4444
-4444
-4444
-4444
-
-or
-
-333
-333
-333
+4444              333
+4444      or      333
+4444              333
 private static void printPattern(int n){
   for(int i=1; i<= n; i++){ //Loop to print row
     for(int j=1; j<=n; j++){ //No. of columns in each row
@@ -172,13 +166,9 @@ private static void printPattern(int n){
 }
 
 ****
-****
-****
-****
-or
-***
-***
-***
+****           ***
+****    or     ***
+****           ***
 private static void printPattern(int n){
   for(int i=1; i<= n; i++){
     for(int j=1; j<=n; j++){
@@ -187,3 +177,55 @@ private static void printPattern(int n){
     System.out.println();
   }
 }
+
+1234
+1234          123
+1234    or    123
+1234          123
+private static void printPattern(int n){
+  for(int i=1; i<= n; i++){
+    for(int j=1; j<=n; j++){
+      System.out.print(j);
+    }
+    System.out.println();
+  }
+}
+
+1111
+2222          111
+3333    or    222
+4444          333
+private static void printPattern(int n){
+  for(int i=1; i<= n; i++){
+    for(int j=1; j<=n; j++){
+      System.out.print(i);
+    }
+    System.out.println();
+  }
+}
+
+
+
+
+Arrays
+An array is a data structure used to store similar type of data.
+When a variable is declared in Java, it is allocated a memory.
+Similarly when an array is declared, it will be allocated continuous memory blocks, based on length specified in array declaration.
+
+Benefits of arrays:
+1) Random access : You can access elements in array with their position ==> arr[7]
+2) Cache friendly : When we access arr[7] for first time, neighbouring elements will be added in cache. Hence when we access arr[5], it it fetched from cache.
+                    Therefore data retrieval is much faster.
+
+Disadvantage:
+1) Fixed size : If an array is full and we need to add a new element, we need to declare a new array and then copy the existing elements and then add new one.
+To overcome this, we have in-built data structure called Arraylist which initializes double the size in memory of existing elements, so that new one can be added dynamically.
+
+Insert data at front:
+We need to shift all elements one place to the right in array and then add at the beginning. ==> O(n)
+
+Insert at random:
+Worst case is inserting data at front. ==> O(n)
+
+Search:
+Array is random, hence we use Linear Search. ==> O(n)
