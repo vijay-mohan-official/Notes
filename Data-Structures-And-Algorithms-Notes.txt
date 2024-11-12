@@ -167,7 +167,7 @@ private static void printPattern(int n){
     for(int j=1; j<=n; j++){ //No. of columns in each row
       System.out.print(n);  //println() will print in each line, hence using print()
     }
-    System.out.println();
+    System.out.println();  //println() is needed after each row else output will be printed in a single line
   }
 }
 
@@ -180,9 +180,9 @@ or
 ***
 ***
 private static void printPattern(int n){
-  for(int i=1; i<= n; i++){ //Loop to print row
-    for(int j=1; j<=n; j++){ //No. of columns in each row
-      System.out.print("*");  //println() will print in each line, hence using print()
+  for(int i=1; i<= n; i++){
+    for(int j=1; j<=n; j++){
+      System.out.print("*");
     }
     System.out.println();
   }
