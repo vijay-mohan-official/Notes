@@ -268,14 +268,3 @@ binarySearch(int arr[], int x){
   }
   return -1;
 }
-
-
-
-
-Questions
--> Given an array of size N. The task is to left rotate array by D elements, where D<=N
-   Expected Time Complexity : O(N)
-   Expected Auxiliary Space : O(1) ==> No extra space or array should be used, Use the array given in question
-Ans) D is given, break point
-Step 1 : Split as two arrays in break point and reverse them individually
-Step 2 : Reverse the whole final array
