@@ -268,3 +268,26 @@ binarySearch(int arr[], int x){
   }
   return -1;
 }
+
+
+
+
+Recursion
+Recursion is a method of solving a problem where the solution depends on solutions to smaller instances of the same problem.
+Eg: Factorial
+6! = 6*5*4*3*2*1
+5! = 5*4*3*2*1
+==> 6! = 6 * 5!
+
+For problems that can be solved using recursion, there should always be a base condition
+int fact(int n){
+  return n * fact(n-1);
+}
+This will run infinitely, hence we should set a base condition
+
+int fact(int n){
+  if(n == 1){
+    return 1;
+  }
+  return n * fact(n-1);
+}
