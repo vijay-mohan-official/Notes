@@ -404,30 +404,9 @@ Binary Number System
 Only two digit 0 and 1
 ==> 17 = 10001 == 1 * 2^4 + 0 * 2^3 + 0 * 2^2 + 0 * 2^1 + 1 * 2^0
 
-Decimal to Binary
-private static String decimalToBinary(int n){
-  if(n == 0){
-    return "0";
-  }
-  String binary = "";
-  while(n>0){
-    int rem = n % 2;
-    n = n/2;
-    binary += rem;
-  }
-  return new StringBuilder(binary).reverse().toString();
-}
 
-Binary to Decimal
-private static int binaryToDecimal(String bin){
-  int length = bin.length;
-  int m = 1;
-  int res = 0;
-  for(int i = length - 1; i > 0; i--){
-    char lastCharacter = bin.charAt(i);
-    Integer lastBit = Integer.valueOf(String.value(lastCharacter));
-    res += m * lastBit;
-    m *= 2;
-  }
-  return res;
-}
+
+
+
+
+Bitwise Operators
