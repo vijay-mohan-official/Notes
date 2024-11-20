@@ -286,8 +286,52 @@ int fact(int n){
 This will run infinitely, hence we should set a base condition
 
 int fact(int n){
-  if(n == 1){
+  if(n == 0){
     return 1;
   }
   return n * fact(n-1);
 }
+
+Suppose 3!
+==>
+int fact(3){                
+  if(n == 0){
+    return 1;
+  }
+  return 3 * fact(2);
+}
+         |
+         |
+         V
+int fact(2){
+  if(n == 0){
+    return 1;
+  }
+  return 2 * fact(1);
+}
+         |
+         |
+         V
+int fact(1){
+  if(n == 0){
+    return 1;
+  }
+  return 1 * fact(0);
+}
+         |
+         |
+         V
+int fact(0){
+  if(n == 0){
+    return 1;
+  }
+  return n * fact(n-1);
+}
+
+Here, what happens is all functions are dependent and are waiting for the other one, i.e, fact(3) is waiting for fact(2) which is waiting for fact(1) which waits for fact(0).
+
+fact(1) returns 1.
+fact(2) = return 2 * fact(1); ==> 2
+fact(3) = return 3 * fact(2); ==> 6
+Time Complexity is O(n)
+Space Complexity is O(n) [Functions waiting are stored in a stack]
