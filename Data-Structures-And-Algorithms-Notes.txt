@@ -389,3 +389,17 @@ private static int helper(int n, int answer) {
   // Recursive case: Call helper with n-1 and multiply the current answer by n.
   return helper(n-1, answer * n);
 }
+
+
+
+
+Bit Manipulation Algorithms
+When we write code, computer will translate it first to assembly language and then to binary digits.
+
+Decimal Number System
+Each digit is b/w 0 and 9
+==> 265 = 2 * 10^2 + 6 * 10^1 + 5 * 10^0
+
+Binary Number System
+Only two digit 0 and 1
+==> 17 = 10001 == 1 * 2^4 + 0 * 2^3 + 0 * 2^2 + 0 * 2^1 + 1 * 2^0
