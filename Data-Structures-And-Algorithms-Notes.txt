@@ -374,13 +374,18 @@ int factorialNonTail(int n){
 
 We can make these functions tail recursive with the help of helper functions.
 
-private static int factorialNonTail(int n){
-  return helper(n,1);
+// This is the main factorial function that calls the helper function to compute the factorial.
+private static int factorialNonTail(int n) {
+  // Start the recursive call with an initial answer of 1
+  return helper(n, 1);
 }
 
-private static int helper(int n, int answer){
-  if(n == 0){
+// Helper function to calculate the factorial in a tail-recursive manner.
+private static int helper(int n, int answer) {
+  // Base case: If n is 0, return the current value of 'answer', which contains the final result.
+  if (n == 0) {
     return answer;
-  }
-  return helper(n-1, answer*n);
+  }  
+  // Recursive case: Call helper with n-1 and multiply the current answer by n.
+  return helper(n-1, answer * n);
 }
