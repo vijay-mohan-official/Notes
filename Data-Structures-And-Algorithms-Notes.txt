@@ -283,7 +283,7 @@ For problems that can be solved using recursion, there should always be a base c
 int fact(int n){
   return n * fact(n-1);
 }
-This will run infinitely, hence we should set a base condition
+This will run infinitely, hence we should set a base condition i.e, terminate when (n==1)
 
 int fact(int n){
   if(n == 0){
@@ -335,3 +335,52 @@ fact(2) = return 2 * fact(1); ==> 2
 fact(3) = return 3 * fact(2); ==> 6
 Time Complexity is O(n)
 Space Complexity is O(n) [Functions waiting are stored in a stack]
+
+If we use iterative approach,
+Time Complexity is O(n)
+Space Complexity is O(1)
+
+Using recursive, we utilize more space for recursion stack.
+Recursion can be used in cases where we can optimize time complexity as iterative methods can increase time complexity.
+
+Print 1 to n using recursion
+private static void printOneToN(int n){
+  if(n == 1){
+    System.out.println(n);
+  }
+  printOneToN(n-1);
+  System.out.println(n); //Non-tail recursion
+}
+
+Print n to 1 using recursion
+private static void printOneToN(int n){
+  if(n == 1){
+    System.out.println(n);
+  }
+  System.out.println(n);
+  printOneToN(n-1);    //If the recursion function call is at the end of the function, then it is called tail recursion.
+}                      //Will be tail recursive only if we have the recursive function call alone as last line.
+
+
+
+
+The below function is non tail recursive since we are multiplying n with the recursive function call
+int factorialNonTail(int n){
+  if(n == 0){
+    return 1;
+  }
+  return n * factorialNonTail(n-1);
+}
+
+We can make these functions tail recursive with the help of helper functions.
+
+private static int factorialNonTail(int n){
+  return helper(n,1);
+}
+
+private static int helper(int n, int answer){
+  if(n == 0){
+    return answer;
+  }
+  return helper(n-1, answer*n);
+}
