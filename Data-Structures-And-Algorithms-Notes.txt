@@ -481,6 +481,59 @@ Shift bits to left or right
 
 5 >> 1
 101 ==> 10 ==> 2 (Shifting 1 bit to right, therefore losing 1 from 101)
+Right shift ==> Quotient when divided by 2
 
 5 << 1
 101 ==> 1010 ==> 10 (Shifting 1 bit to left, adding zero)
+Left shift ==> Product when multiplied by 2
+
+
+
+
+Most Significant Bit and Least Significant Bit
+First bit is the most significant bit and the last is the least significant bit.
+In 101,
+   | | 
+   V |
+  MSB|
+     V
+    LSB
+
+Set Bit
+Bits which are one
+In 101,
+   | | 
+   V V
+ Set Bit
+
+
+
+
+1    001
+2    010
+3    011
+4    100
+5    101
+6    110
+7    111
+Here, we can see that all odd numbers have 1 as LSB
+Also if you take an odd number and perform bitwise AND with 1(001), the least significant bit will be 1
+
+
+-> Question
+Check if the kth bit of a number is set bit
+Ans) First perform (k-1) Bitwise Right Shift to expose the kth bit
+     Now use bitwise AND with 1 and check if LSB is 1
+     If LSB is 1, then k is set bit else not set bit
+
+Check if the given number n can be written in the form of 2^k
+Ans) Numbers in power of 2,
+2^1 ==> 10
+2^2 ==> 100
+2^3 ==> 1000
+2^4 ==> 10000
+
+If we perform bitwise AND with n and n-1 and if it returns 0, then n can be expressed as a power of 2
+
+n & (n-1) == 0
+This fails for n = 0, so we add a condition and perform the operation when x != 0. If x = 0, cannot be expressed as power of 2
